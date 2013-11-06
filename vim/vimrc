@@ -1,0 +1,12 @@
+call pathogen#infect()
+call pathogen#helptags()
+colorscheme elflord 
+set laststatus=1
+set wildmenu
+syntax on
+set number
+set cindent
+set cinkeys=0{,0},:,0#,!^F
+set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+set hlsearch
+set incsearch
