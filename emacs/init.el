@@ -39,10 +39,10 @@
             (normal-top-level-add-subdirs-to-load-path)))
          load-path)))
 
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
+;(global-set-key "\C-cl" 'org-store-link)
+;(global-set-key "\C-cc" 'org-capture)
+;(global-set-key "\C-ca" 'org-agenda)
+;(global-set-key "\C-cb" 'org-iswitchb)
 
 ; remapping caps-lock
 ; http://emacs-fu.blogspot.dk/2008/12/remapping-caps-lock.html
@@ -55,7 +55,7 @@
 ;; name can be be a bit different, which would screw up autoconnect
 (erc-autojoin-mode t)
 (setq erc-autojoin-channels-alist
-  '((".*\\.freenode.net" "##fsharp" "#clojure")))
+  '((".*\\.freenode.net" "##fsharp" "#haskell" "#clojure")))
 
 ;; check channels
 (erc-track-mode t)
@@ -87,3 +87,22 @@
 
 (setq inferior-fsharp-program "\"c:\\Program Files (x86)\\Microsoft SDKs\\F#\\3.0\\Framework\\v4.0\\fsi.exe\"")
 (setq fsharp-compiler "\"c:\\Program Files (x86)\\Microsoft SDKs\\F#\\3.0\\Framework\\v4.0\\fsc.exe\"")
+
+(setq fsharp-ac-debug t)
+
+(unless (package-installed-p 'solarized-theme)
+  (package-install 'solarized-theme))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (solarized-dark)))
+ '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline" :family "DejaVu Sans Mono")))))
