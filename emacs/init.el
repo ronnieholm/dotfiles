@@ -71,7 +71,7 @@
 
     (erc-track-switch-buffer 1) ;; yes: switch to last active
     (when (y-or-n-p "Start ERC? ") ;; no: maybe start ERC
-      (erc :server "irc.freenode.net" :port 6667 :nick "RonnieDk"))))
+      (erc :server "irc.freenode.net" :port 6667 :nick "RonnieHolm"))))
 
 ;;; Initialize MELPA
 (require 'package)
