@@ -2,7 +2,7 @@
 (setq user-mail-address "mail@bugfree.dk")
 
 ;; don't show the toolbar
-(tool-bar-mode -1)     
+(tool-bar-mode -1)
 
 ;; don't show startup messages
 (setq inhibit-startup-message t
@@ -76,7 +76,7 @@
 ;; http://emacs-fu.blogspot.dk/2009/06/erc-emacs-irc-client.html
 (erc-autojoin-mode t)
 (setq erc-autojoin-channels-alist
-  '((".*\\.freenode.net" "#haskell" "#emacs")))
+  '((".*\\.freenode.net" "#haskell" "#haskell-beginners" "#org-mode" "#emacs")))
 
 ;; check channels
 (erc-track-mode t)
