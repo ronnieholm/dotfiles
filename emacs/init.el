@@ -1,61 +1,82 @@
 (setq user-full-name "Ronnie Holm")
 (setq user-mail-address "mail@bugfree.dk")
 
-(tool-bar-mode -1)                             ;; don't show the toolbar
+;; don't show the toolbar
+(tool-bar-mode -1)     
 
-(setq inhibit-startup-message t                ;; don't show ...
-      inhibit-startup-echo-area-message t)     ;; ... startup messages
+;; don't show startup messages
+(setq inhibit-startup-message t
+      inhibit-startup-echo-area-message t)
 
-(setq scroll-margin 1                          ;; do smooth scrolling
+;; do smooth scrolling
+(setq scroll-margin 1     
       scroll-conservatively 100000
       scroll-up-aggressively 0.01
       scroll-down-aggressively 0.01)
 
-(global-font-lock-mode t)                      ;; always do syntax highlighting
-(blink-cursor-mode 0)                          ;; don't blink cursor
-(setq backup-inhibited t)                      ;; no backup files
-(setq delete-by-moving-to-trash t)             ;; delete moves to recycle bin
-(iswitchb-mode t)                              ;; easy buffer switching
+;; always do syntax highlighting
+(global-font-lock-mode t)
 
-(column-number-mode t)                         ;; show column numbers
-(size-indication-mode t)                       ;; show file size
+;; don't blink cursor
+(blink-cursor-mode 0)
 
-(setq save-place-file "~/.emacs.d/saveplace")  ;; location of saveplace file
-(setq-default save-place t)                    ;; activate for all buffer
+;; no backup files
+(setq backup-inhibited t)
+
+;; delete moves to recycle bin
+(setq delete-by-moving-to-trash t)
+
+;; show column numbers
+(column-number-mode t)
+
+;; show file size
+(size-indication-mode t)
+
+;; location of saveplace file
+(setq save-place-file "~/.emacs.d/saveplace")
+
+;; activate for all buffer
+(setq-default save-place t)
 (require 'saveplace)
+;; hide but one star in outline
+(setq org-hide-leading-stars t)
 
-(setq org-hide-leading-stars t)                ;; hide but one star in outline
-(setq org-add-levels-only t)                   ;; align items nicely
-(setq org-clock-persist t)                     ;; keep track of time ...
-(org-clock-persistence-insinuate)              ;; ... across sessions
-(setq org-clock-out-remove-zero-time-clocks t) ;; remove 0-duration clocked
+;; align items nicely
+(setq org-add-levels-only t)
 
-(let ((default-directory "~/.emacs.d/site-lisp/"))  ;; add paths recursively
+;; keep track of time across sessions
+(setq org-clock-persist t)
+(org-clock-persistence-insinuate)
+
+;; remove 0-duration clocked
+(setq org-clock-out-remove-zero-time-clocks t)
+
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
+
+(defalias 'list-buffers 'ibuffer)
+
+;; add paths recursively
+(let ((default-directory "~/.emacs.d/site-lisp/"))
   (setq load-path
-        (append
-         (let ((load-path (copy-sequence load-path))) ;; Shadow
+    (append
+         ;; Shadow
+         (let ((load-path (copy-sequence load-path)))
            (append 
             (copy-sequence (normal-top-level-add-to-load-path '(".")))
             (normal-top-level-add-subdirs-to-load-path)))
          load-path)))
 
-;(global-set-key "\C-cl" 'org-store-link)
-;(global-set-key "\C-cc" 'org-capture)
-;(global-set-key "\C-ca" 'org-agenda)
-;(global-set-key "\C-cb" 'org-iswitchb)
-
-; remapping caps-lock
-; http://emacs-fu.blogspot.dk/2008/12/remapping-caps-lock.html
+;; remapping caps-lock
+;; http://emacs-fu.blogspot.dk/2008/12/remapping-caps-lock.html
 (setq w32-enable-caps-lock nil)
 (global-set-key [capslock] 'execute-extended-command)
 
-;; from http://emacs-fu.blogspot.dk/2009/06/erc-emacs-irc-client.html
-;; joining && autojoing
-;; make sure to use wildcards for e.g. freenode as the actual server
-;; name can be be a bit different, which would screw up autoconnect
+;; http://emacs-fu.blogspot.dk/2009/06/erc-emacs-irc-client.html
 (erc-autojoin-mode t)
 (setq erc-autojoin-channels-alist
-  '((".*\\.freenode.net" "##fsharp" "#haskell" "#clojure")))
+  '((".*\\.freenode.net" "#haskell" "#emacs")))
 
 ;; check channels
 (erc-track-mode t)
@@ -65,21 +86,34 @@
 (setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK"))
 
 (defun rh-erc-start-or-switch ()
-  "Connect to ERC, or switch to last active buffer"
+  "Connect to ERC or switch to last active buffer"
   (interactive)
-  (if (get-buffer "irc.freenode.net:6667") ;; ERC already active?
-
-    (erc-track-switch-buffer 1) ;; yes: switch to last active
-    (when (y-or-n-p "Start ERC? ") ;; no: maybe start ERC
+  ;; ERC already active?      
+  (if (get-buffer "irc.freenode.net:6667") 
+    ;; yes: switch to last active
+    (erc-track-switch-buffer 1) 
+    ;; no: maybe start ERC
+    (when (y-or-n-p "Start ERC? ") 
       (erc :server "irc.freenode.net" :port 6667 :nick "RonnieHolm"))))
 
-;;; Initialize MELPA
+;; initialize MELPA
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(unless package-archive-contents (package-refresh-contents))
+(setq package-enable-at-startup nil)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
 
-;;; Install fsharp-mode
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(use-package try
+  :ensure t)
+
+(use-package which-key
+  :ensure t
+  :config (which-key-mode))
+
+;;; install fsharp-mode
 (unless (package-installed-p 'fsharp-mode)
   (package-install 'fsharp-mode))
 
@@ -87,19 +121,13 @@
 
 (setq inferior-fsharp-program "\"c:\\Program Files (x86)\\Microsoft SDKs\\F#\\3.0\\Framework\\v4.0\\fsi.exe\"")
 (setq fsharp-compiler "\"c:\\Program Files (x86)\\Microsoft SDKs\\F#\\3.0\\Framework\\v4.0\\fsc.exe\"")
-
 (setq fsharp-ac-debug t)
 
-(unless (package-installed-p 'solarized-theme)
-  (package-install 'solarized-theme))
+;(unless (package-installed-p 'solarized-theme)
+;  (package-install 'solarized-theme))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (solarized-dark)))
- '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))))
+(load-theme 'deeper-blue)
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
