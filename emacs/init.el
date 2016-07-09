@@ -4,6 +4,9 @@
 ;; don't show the toolbar
 (tool-bar-mode -1)
 
+;; shortcut for typing in yes or no
+(fset 'yes-or-no-p 'y-or-n-p)
+
 ;; don't show startup messages
 (setq inhibit-startup-message t
       inhibit-startup-echo-area-message t)
@@ -38,6 +41,7 @@
 ;; activate for all buffer
 (setq-default save-place t)
 (require 'saveplace)
+
 ;; hide but one star in outline
 (setq org-hide-leading-stars t)
 
@@ -113,6 +117,60 @@
   :ensure t
   :config (which-key-mode))
 
+;;; haskell config
+(use-package haskell-mode
+  :ensure t)
+
+(use-package hindent
+  :ensure t)
+
+(use-package ghc
+  :ensure t)
+
+(use-package company-ghc
+  :ensure t)
+
+;;; enable pressing F8 to jump to import section of Haskell source file
+(eval-after-load 'haskell-mode
+  '(define-key haskell-mode-map [f8] 'haskell-navigate-imports))
+
+;;; enable minor mode to re-indent Haskell code
+(add-hook 'haskell-mode-hook #'hindent-mode)
+
+;;; use hasktags.exe to generate tags for navigation on save
+(custom-set-variables '(haskell-tags-on-save t))
+
+(custom-set-variables
+  '(haskell-process-suggest-remove-import-lines t)
+  '(haskell-process-auto-import-loaded-modules t)
+  '(haskell-process-log t)
+  '(haskell-process-type 'stack-ghci))
+
+(eval-after-load 'haskell-mode '(progn
+  (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
+  (define-key haskell-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
+  (define-key haskell-mode-map (kbd "C-c C-n C-t") 'haskell-process-do-type)
+  (define-key haskell-mode-map (kbd "C-c C-n C-i") 'haskell-process-do-info)
+  (define-key haskell-mode-map (kbd "C-c C-n C-c") 'haskell-process-cabal-build)
+  (define-key haskell-mode-map (kbd "C-c C-n c") 'haskell-process-cabal)))
+
+(eval-after-load 'haskell-cabal '(progn
+  (define-key haskell-cabal-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
+  (define-key haskell-cabal-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
+  (define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
+  (define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)))
+
+;;; configure haskell-mode to initialize ghc-mod each time we open a Haskell file
+(autoload 'ghc-init "ghc" nil t)
+(autoload 'ghc-debug "ghc" nil t)
+(add-hook 'haskell-mode-hook (lambda () (ghc-init)))
+
+;;; add auto-completion popups in haskell mode
+(require 'company)
+(add-hook 'haskell-mode-hook 'company-mode)
+(add-to-list 'company-backends 'company-ghc)
+(custom-set-variables '(company-ghc-show-info t))
+
 ;;; install fsharp-mode
 (unless (package-installed-p 'fsharp-mode)
   (package-install 'fsharp-mode))
@@ -127,6 +185,11 @@
 ;  (package-install 'solarized-theme))
 
 (load-theme 'deeper-blue)
+
+;; gnus
+(setq gnus-select-method
+    '(nntp "news.gmane.org"
+	   (nntp-port-number 119)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
