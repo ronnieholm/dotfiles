@@ -77,6 +77,9 @@
 (setq w32-enable-caps-lock nil)
 (global-set-key [capslock] 'execute-extended-command)
 
+(global-set-key (kbd "\el")
+		(lambda () (interactive) (find-file "C:/Users/ronnie/Google Drive/Life.org")))
+
 ;; http://emacs-fu.blogspot.dk/2009/06/erc-emacs-irc-client.html
 (erc-autojoin-mode t)
 (setq erc-autojoin-channels-alist
@@ -130,6 +133,14 @@
 (use-package company-ghc
   :ensure t)
 
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . gfm-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
 ;;; enable pressing F8 to jump to import section of Haskell source file
 (eval-after-load 'haskell-mode
   '(define-key haskell-mode-map [f8] 'haskell-navigate-imports))
@@ -180,9 +191,6 @@
 (setq inferior-fsharp-program "\"c:\\Program Files (x86)\\Microsoft SDKs\\F#\\3.0\\Framework\\v4.0\\fsi.exe\"")
 (setq fsharp-compiler "\"c:\\Program Files (x86)\\Microsoft SDKs\\F#\\3.0\\Framework\\v4.0\\fsc.exe\"")
 (setq fsharp-ac-debug t)
-
-;(unless (package-installed-p 'solarized-theme)
-;  (package-install 'solarized-theme))
 
 (load-theme 'deeper-blue)
 
