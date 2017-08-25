@@ -83,7 +83,7 @@
 ;; http://emacs-fu.blogspot.dk/2009/06/erc-emacs-irc-client.html
 (erc-autojoin-mode t)
 (setq erc-autojoin-channels-alist
-  '((".*\\.freenode.net" "#haskell" "#haskell-beginners" "#org-mode" "#emacs")))
+  '((".*\\.freenode.net" "##c" "#haskell-beginners")))
 
 ;; check channels
 (erc-track-mode t)
@@ -149,13 +149,22 @@
 (add-hook 'haskell-mode-hook #'hindent-mode)
 
 ;;; use hasktags.exe to generate tags for navigation on save
-(custom-set-variables '(haskell-tags-on-save t))
-
 (custom-set-variables
-  '(haskell-process-suggest-remove-import-lines t)
-  '(haskell-process-auto-import-loaded-modules t)
-  '(haskell-process-log t)
-  '(haskell-process-type 'stack-ghci))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-ghc-show-info t)
+ '(haskell-process-auto-import-loaded-modules t)
+ '(haskell-process-log t)
+ '(haskell-process-suggest-remove-import-lines t)
+ '(haskell-process-type (quote stack-ghci))
+ '(haskell-tags-on-save t)
+ '(package-selected-packages
+   (quote
+    (debbugs which-key use-package try solarized-theme powershell-mode powershell org-bullets markdown-mode hindent fsharp-mode company-ghc))))
+
+
 
 (eval-after-load 'haskell-mode '(progn
   (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
@@ -180,7 +189,7 @@
 (require 'company)
 (add-hook 'haskell-mode-hook 'company-mode)
 (add-to-list 'company-backends 'company-ghc)
-(custom-set-variables '(company-ghc-show-info t))
+
 
 ;;; install fsharp-mode
 (unless (package-installed-p 'fsharp-mode)
