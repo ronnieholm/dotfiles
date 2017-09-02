@@ -58,7 +58,6 @@
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
-
 (defalias 'list-buffers 'ibuffer)
 
 ;; add paths recursively
@@ -83,7 +82,7 @@
 ;; http://emacs-fu.blogspot.dk/2009/06/erc-emacs-irc-client.html
 (erc-autojoin-mode t)
 (setq erc-autojoin-channels-alist
-  '((".*\\.freenode.net" "##c" "#haskell-beginners")))
+  '((".*\\.freenode.net" "##c" "##csharp")))
 
 ;; check channels
 (erc-track-mode t)
@@ -120,18 +119,19 @@
   :ensure t
   :config (which-key-mode))
 
-;;; haskell config
-(use-package haskell-mode
+(use-package omnisharp
   :ensure t)
 
-(use-package hindent
-  :ensure t)
-
-(use-package ghc
-  :ensure t)
-
-(use-package company-ghc
-  :ensure t)
+;; https://github.com/OmniSharp/omnisharp-emacs/issues/315
+;; Use win7-x86 or Emacs will crash on server start. This'll happen
+;; until the next Emacs release. Latest Emacs build is from
+;; 2017-04-24 and fix was committed to Emacs on June 9, 2017.
+(add-hook 'csharp-mode-hook 'omnisharp-mode)
+(eval-after-load
+ 'company
+ '(add-to-list 'company-backends 'company-omnisharp))
+;(setq omnisharp-server-executable-path "E:/git/omnisharp-roslyn/artifacts/publish/OmniSharp/win7-x86/Omnisharp.exe")
+(setq omnisharp-debug t)
 
 (use-package markdown-mode
   :ensure t
@@ -140,66 +140,6 @@
          ("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
-
-;;; enable pressing F8 to jump to import section of Haskell source file
-(eval-after-load 'haskell-mode
-  '(define-key haskell-mode-map [f8] 'haskell-navigate-imports))
-
-;;; enable minor mode to re-indent Haskell code
-(add-hook 'haskell-mode-hook #'hindent-mode)
-
-;;; use hasktags.exe to generate tags for navigation on save
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(company-ghc-show-info t)
- '(haskell-process-auto-import-loaded-modules t)
- '(haskell-process-log t)
- '(haskell-process-suggest-remove-import-lines t)
- '(haskell-process-type (quote stack-ghci))
- '(haskell-tags-on-save t)
- '(package-selected-packages
-   (quote
-    (debbugs which-key use-package try solarized-theme powershell-mode powershell org-bullets markdown-mode hindent fsharp-mode company-ghc))))
-
-
-
-(eval-after-load 'haskell-mode '(progn
-  (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
-  (define-key haskell-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
-  (define-key haskell-mode-map (kbd "C-c C-n C-t") 'haskell-process-do-type)
-  (define-key haskell-mode-map (kbd "C-c C-n C-i") 'haskell-process-do-info)
-  (define-key haskell-mode-map (kbd "C-c C-n C-c") 'haskell-process-cabal-build)
-  (define-key haskell-mode-map (kbd "C-c C-n c") 'haskell-process-cabal)))
-
-(eval-after-load 'haskell-cabal '(progn
-  (define-key haskell-cabal-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
-  (define-key haskell-cabal-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
-  (define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
-  (define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)))
-
-;;; configure haskell-mode to initialize ghc-mod each time we open a Haskell file
-(autoload 'ghc-init "ghc" nil t)
-(autoload 'ghc-debug "ghc" nil t)
-(add-hook 'haskell-mode-hook (lambda () (ghc-init)))
-
-;;; add auto-completion popups in haskell mode
-(require 'company)
-(add-hook 'haskell-mode-hook 'company-mode)
-(add-to-list 'company-backends 'company-ghc)
-
-
-;;; install fsharp-mode
-(unless (package-installed-p 'fsharp-mode)
-  (package-install 'fsharp-mode))
-
-(require 'fsharp-mode)
-
-(setq inferior-fsharp-program "\"c:\\Program Files (x86)\\Microsoft SDKs\\F#\\3.0\\Framework\\v4.0\\fsi.exe\"")
-(setq fsharp-compiler "\"c:\\Program Files (x86)\\Microsoft SDKs\\F#\\3.0\\Framework\\v4.0\\fsc.exe\"")
-(setq fsharp-ac-debug t)
 
 (load-theme 'deeper-blue)
 
@@ -214,3 +154,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline" :family "DejaVu Sans Mono")))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (omnisharp which-key use-package try solarized-theme powershell-mode powershell markdown-mode debbugs company-ghc))))
