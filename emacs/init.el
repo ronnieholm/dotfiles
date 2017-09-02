@@ -130,7 +130,7 @@
 (eval-after-load
  'company
  '(add-to-list 'company-backends 'company-omnisharp))
-;(setq omnisharp-server-executable-path "E:/git/omnisharp-roslyn/artifacts/publish/OmniSharp/win7-x86/Omnisharp.exe")
+(setq omnisharp-server-executable-path "E:/git/omnisharp-roslyn/artifacts/publish/OmniSharp/win7-x86/Omnisharp.exe")
 (setq omnisharp-debug t)
 
 (use-package markdown-mode
