@@ -112,15 +112,9 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(use-package try
-  :ensure t)
-
-(use-package which-key
-  :ensure t
-  :config (which-key-mode))
-
-(use-package omnisharp
-  :ensure t)
+(unless (package-installed-p 'omnisharp)
+  (package-refresh-contents)
+  (package-install 'omnisharp)
 
 ;; https://github.com/OmniSharp/omnisharp-emacs/issues/315
 ;; Use win7-x86 or Emacs will crash on server start. This'll happen
@@ -130,8 +124,16 @@
 (eval-after-load
  'company
  '(add-to-list 'company-backends 'company-omnisharp))
-(setq omnisharp-server-executable-path "E:/git/omnisharp-roslyn/artifacts/publish/OmniSharp/win7-x86/Omnisharp.exe")
+;;(setq omnisharp-server-executable-path "E:/git/omnisharp-roslyn/artifacts/publish/OmniSharp/win7-x86/Omnisharp.exe")
+(setq omnisharp-server-executable-path "C:/Users/ronnie/Desktop/omnisharp-win-x86/Omnisharp.exe")
 (setq omnisharp-debug t)
+  
+(use-package try
+  :ensure t)
+
+(use-package which-key
+  :ensure t
+  :config (which-key-mode))
 
 (use-package markdown-mode
   :ensure t
