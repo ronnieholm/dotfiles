@@ -114,12 +114,12 @@
 
 (unless (package-installed-p 'omnisharp)
   (package-refresh-contents)
-  (package-install 'omnisharp)
+  (package-install 'omnisharp))
 
 ;; https://github.com/OmniSharp/omnisharp-emacs/issues/315
 ;; Use win7-x86 or Emacs will crash on server start. This'll happen
-;; until the next Emacs release. Latest Emacs build is from
-;; 2017-04-24 and fix was committed to Emacs on June 9, 2017.
+;; until the next Emacs release. Most recent Emacs release is from
+;; April 24, 2017 and fix was committed to Emacs on June 9, 2017.
 (add-hook 'csharp-mode-hook 'omnisharp-mode)
 (eval-after-load
  'company
