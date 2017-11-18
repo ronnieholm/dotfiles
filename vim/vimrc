@@ -10,3 +10,11 @@ set cinkeys=0{,0},:,0#,!^F
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 set hlsearch
 set incsearch
+set tabstop=4        " default tabs are too big
+set wrap             " turn on word wrapping
+set linebreak        " only wrap at sensible places
+set nolist           " list disables linebreak
+set textwidth=0      " prevent from automatically inserting line breaks
+set wrapmargin=0
+set formatoptions-=t " don't change wrappoing on existing lines
+set formatoptions+=l " black magic
