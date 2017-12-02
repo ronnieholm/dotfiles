@@ -23,6 +23,9 @@
 ;; don't blink cursor
 (blink-cursor-mode 0)
 
+;; disable Emacs sound
+(setq ring-bell-function 'ignore)
+
 ;; no backup files
 (setq backup-inhibited t)
 
