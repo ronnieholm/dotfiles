@@ -1,8 +1,9 @@
 (setq user-full-name "Ronnie Holm")
 (setq user-mail-address "mail@bugfree.dk")
 
-;; don't show the toolbar
+;; don't show the toolbar and scrollbar
 (tool-bar-mode -1)
+(scroll-bar-mode -1)
 
 ;; shortcut for typing in yes or no
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -38,13 +39,6 @@
 ;; show file size
 (size-indication-mode t)
 
-;; location of saveplace file
-(setq save-place-file "~/.emacs.d/saveplace")
-
-;; activate for all buffer
-(setq-default save-place t)
-(require 'saveplace)
-
 ;; hide but one star in outline
 (setq org-hide-leading-stars t)
 
@@ -58,10 +52,8 @@
 ;; remove 0-duration clocked
 (setq org-clock-out-remove-zero-time-clocks t)
 
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(ido-mode 1)
-(defalias 'list-buffers 'ibuffer)
+;; clock time in :LOGBOOK: draw
+(setq org-clock-into-drawer t)
 
 ;; add paths recursively
 (let ((default-directory "~/.emacs.d/site-lisp/"))
@@ -80,7 +72,7 @@
 (global-set-key [capslock] 'execute-extended-command)
 
 (global-set-key (kbd "\el")
-		(lambda () (interactive) (find-file "C:/Users/ronnie/Google Drive/Life.org")))
+		(lambda () (interactive) (find-file "C:/Users/rh/Google Drive/Life.org")))
 
 ;; http://emacs-fu.blogspot.dk/2009/06/erc-emacs-irc-client.html
 (erc-autojoin-mode t)
@@ -130,12 +122,38 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 
-(load-theme 'deeper-blue)
+(use-package ox-twbs
+  :ensure t)
 
-;; gnus
-(setq gnus-select-method
-    '(nntp "news.gmane.org"
-	   (nntp-port-number 119)))
+(use-package dashboard
+  :ensure t
+  :config
+    (dashboard-setup-startup-hook)
+    (setq dashboard-items '((recents  . 10)))
+    (setq dashboard-banner-logo-title "Welcome to Emacs"))
+
+(use-package spaceline
+  :ensure t
+  :config
+  (require 'spaceline-config)
+    (setq spaceline-buffer-encoding-abbrev-p nil)
+    (setq spaceline-line-column-p t)
+    (setq spaceline-line-p nil)
+    (setq powerline-default-separator (quote arrow))
+    (spaceline-spacemacs-theme))
+
+(use-package magit
+  :ensure t
+  :config
+  (setq magit-push-always-verify nil)
+  (setq git-commit-summary-max-length 50)
+  :bind
+    ("M-g" . magit-status))
+
+(use-package git-gutter
+  :ensure t)
+
+(load-theme 'deeper-blue)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -143,3 +161,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline" :family "DejaVu Sans Mono")))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (git-gutter ox-twbs which-key use-package try omnisharp markdown-mode))))
