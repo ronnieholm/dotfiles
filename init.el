@@ -12,6 +12,9 @@
 (setq inhibit-startup-message t
       inhibit-startup-echo-area-message t)
 
+;; change font
+(set-default-font "DejaVu Sans Mono 10")
+
 ;; do smooth scrolling
 (setq scroll-margin 1     
       scroll-conservatively 100000
@@ -74,15 +77,17 @@
 (global-set-key (kbd "\el")
 		(lambda () (interactive) (find-file "C:/Users/rh/Google Drive/Life.org")))
 
+; No longer supported by Emacs master.
 ;; http://emacs-fu.blogspot.dk/2009/06/erc-emacs-irc-client.html
-(erc-autojoin-mode t)
-(setq erc-autojoin-channels-alist
-  '((".*\\.freenode.net" "##c" "##csharp")))
+;(erc-autojoin-mode t)
+;(setq erc-autojoin-channels-alist
+;  '((".*\\.freenode.net" "##c" "##csharp")))
 
 ;; check channels
-(erc-track-mode t)
-(setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
-                                 "324" "329" "332" "333" "353" "477"))
+;(erc-track-mode t)
+;(setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
+;                                 "324" "329" "332" "333" "353" "477"))
+
 ;; don't show any of this
 (setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK"))
 
@@ -155,17 +160,3 @@
 
 (load-theme 'deeper-blue)
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline" :family "DejaVu Sans Mono")))))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (git-gutter ox-twbs which-key use-package try omnisharp markdown-mode))))
