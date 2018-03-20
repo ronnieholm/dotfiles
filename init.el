@@ -13,7 +13,8 @@
       inhibit-startup-echo-area-message t)
 
 ;; change font
-(set-default-font "DejaVu Sans Mono 10")
+(add-to-list 'default-frame-alist
+             '(font . "DejaVu Sans Mono-10"))
 
 ;; do smooth scrolling
 (setq scroll-margin 1     
@@ -106,7 +107,6 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -158,5 +158,10 @@
 (use-package git-gutter
   :ensure t)
 
-(load-theme 'deeper-blue)
+(use-package company
+  :ensure t
+  :config
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 3))
 
+(load-theme 'deeper-blue)
