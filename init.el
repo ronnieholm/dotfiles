@@ -164,4 +164,25 @@
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 3))
 
+(use-package omnisharp
+  :ensure t
+  :config
+  (add-hook 'csharp-mode-hook 'omnisharp-mode)
+  (add-hook 'csharp-mode-hook #'flycheck-mode)
+  (setq omnisharp-server-executable-path "~/Downloads/omnisharp-linux-x64/run")
+  (setq-default indent-tabs-mode nil))
+
 (load-theme 'deeper-blue)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(omnisharp which-key use-package try spaceline ox-twbs markdown-mode magit git-gutter dashboard company)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
