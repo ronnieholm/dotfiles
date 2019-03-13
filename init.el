@@ -164,12 +164,29 @@
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 3))
 
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode)
+  (setq projectile-enable-caching t)
+  (setq projectile-indexing-method 'alien)
+  (setq projectile-globally-ignored-file-suffixes
+      '("#" "~" ".swp" ".o" ".so" ".exe" ".dll" ".elc" ".pyc" ".jar"))
+  (setq projectile-globally-ignored-directories
+      '(".git" "node_modules" "__pycache__" ".vs"))
+  (setq projectile-globally-ignored-files '("TAGS" "tags" ".DS_Store")))
+
+;; https://joshwolfe.ca/post/emacs-for-csharp
 (use-package omnisharp
   :ensure t
   :config
   (add-hook 'csharp-mode-hook 'omnisharp-mode)
-  (add-hook 'csharp-mode-hook #'flycheck-mode)
+  (add-hook 'csharp-mode-hook 'flycheck-mode)
+  (add-to-list 'company-backends 'company-omnisharp)
   (setq omnisharp-server-executable-path "~/Downloads/omnisharp-linux-x64/run")
-  (setq-default indent-tabs-mode nil))
+  (setq-default indent-tabs-mode nil)
+  (define-key omnisharp-mode-map (kbd ".") 'omnisharp-add-dot-and-auto-complete)
+  (define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete)
+  (define-key omnisharp-mode-map (kbd "<f12>") 'omnisharp-go-to-definition))
 
 (load-theme 'deeper-blue)
