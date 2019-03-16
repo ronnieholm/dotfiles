@@ -59,6 +59,18 @@
 ;; clock time in :LOGBOOK: draw
 (setq org-clock-into-drawer t)
 
+;; resize windows
+;; https://www.emacswiki.org/emacs/WindowResize
+(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "S-C-<down>") 'shrink-window)
+(global-set-key (kbd "S-C-<up>") 'enlarge-window)
+
+;; move cursor between windows
+;; https://www.emacswiki.org/emacs/WindMove
+(when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings))
+
 ;; add paths recursively
 (let ((default-directory "~/.emacs.d/site-lisp/"))
   (setq load-path
@@ -77,31 +89,6 @@
 
 (global-set-key (kbd "\el")
 		(lambda () (interactive) (find-file "C:/Users/rh/Google Drive/Life.org")))
-
-; No longer supported by Emacs master.
-;; http://emacs-fu.blogspot.dk/2009/06/erc-emacs-irc-client.html
-;(erc-autojoin-mode t)
-;(setq erc-autojoin-channels-alist
-;  '((".*\\.freenode.net" "##c" "##csharp")))
-
-;; check channels
-;(erc-track-mode t)
-;(setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
-;                                 "324" "329" "332" "333" "353" "477"))
-
-;; don't show any of this
-(setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK"))
-
-(defun rh-erc-start-or-switch ()
-  "Connect to ERC or switch to last active buffer"
-  (interactive)
-  ;; ERC already active?      
-  (if (get-buffer "irc.freenode.net:6667") 
-    ;; yes: switch to last active
-    (erc-track-switch-buffer 1) 
-    ;; no: maybe start ERC
-    (when (y-or-n-p "Start ERC? ") 
-      (erc :server "irc.freenode.net" :port 6667 :nick "RonnieHolm"))))
 
 ;; initialize MELPA
 (require 'package)
