@@ -176,4 +176,8 @@
   (define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete)
   (define-key omnisharp-mode-map (kbd "<f12>") 'omnisharp-go-to-definition))
 
+(use-package neotree
+  :ensure t
+  :bind (("<f2>" . neotree-toggle)))
+
 (load-theme 'deeper-blue)
