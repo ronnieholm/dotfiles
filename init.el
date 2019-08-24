@@ -151,6 +151,9 @@
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 3))
 
+(use-package csharp-mode
+  :ensure t)
+
 (use-package projectile
   :ensure t
   :config
@@ -168,3 +171,16 @@
   :bind (("<f2>" . neotree-toggle)))
 
 (load-theme 'deeper-blue)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(csharp-mode neotree projectile company git-gutter magit spaceline dashboard ox-twbs markdown-mode which-key try use-package)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
