@@ -163,19 +163,6 @@
       '(".git" "node_modules" "__pycache__" ".vs"))
   (setq projectile-globally-ignored-files '("TAGS" "tags" ".DS_Store")))
 
-;; https://joshwolfe.ca/post/emacs-for-csharp
-(use-package omnisharp
-  :ensure t
-  :config
-  (add-hook 'csharp-mode-hook 'omnisharp-mode)
-  (add-hook 'csharp-mode-hook 'flycheck-mode)
-  (add-to-list 'company-backends 'company-omnisharp)
-  (setq omnisharp-server-executable-path "~/Downloads/omnisharp-linux-x64/run")
-  (setq-default indent-tabs-mode nil)
-  (define-key omnisharp-mode-map (kbd ".") 'omnisharp-add-dot-and-auto-complete)
-  (define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete)
-  (define-key omnisharp-mode-map (kbd "<f12>") 'omnisharp-go-to-definition))
-
 (use-package neotree
   :ensure t
   :bind (("<f2>" . neotree-toggle)))
