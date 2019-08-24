@@ -151,7 +151,7 @@
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 3))
 
-(use-package csharp-mode
+(use-package csharp-mode  
   :ensure t)
 
 (use-package projectile
