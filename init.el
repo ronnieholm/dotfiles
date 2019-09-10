@@ -86,7 +86,7 @@
          load-path)))
 
 ;; remapping caps-lock
-;; http://emacs-fu.blogspot.dk/2008/12/remapping-caps-lock.html
+;; http://emacs-fu.blogspot.com/2008/12/remapping-caps-lock.html
 (setq w32-enable-caps-lock nil)
 (global-set-key [capslock] 'execute-extended-command)
 
