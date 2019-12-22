@@ -85,14 +85,6 @@
             (normal-top-level-add-subdirs-to-load-path)))
          load-path)))
 
-;; remapping caps-lock
-;; http://emacs-fu.blogspot.com/2008/12/remapping-caps-lock.html
-(setq w32-enable-caps-lock nil)
-(global-set-key [capslock] 'execute-extended-command)
-
-(global-set-key (kbd "\el")
-		(lambda () (interactive) (find-file "C:/Users/rh/Google Drive/Life.org")))
-
 ;; initialize MELPA
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -154,9 +146,6 @@
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 3))
 
-(use-package csharp-mode  
-  :ensure t)
-
 (use-package projectile
   :ensure t
   :config
@@ -172,5 +161,17 @@
 (use-package neotree
   :ensure t
   :bind (("<f2>" . neotree-toggle)))
+
+(use-package csharp-mode
+  :ensure t)
+
+(use-package lsp-mode
+  :ensure t
+  :hook (csharp-mode . lsp)
+  :commands lsp)
+
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package company-lsp :commands company-lsp)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
 (load-theme 'deeper-blue)
