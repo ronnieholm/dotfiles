@@ -1,6 +1,16 @@
-(setq user-full-name "Ronnie Holm")
-(setq user-mail-address "mail@bugfree.dk")
-
+(setq user-full-name "Ronnie Holm"
+      user-mail-address "mail@bugfree.dk"
+      fill-column 80               ;; increase from default of 70.
+      inhibit-startup-message t    ;; don't show startup messages
+      inhibit-startup-echo-area-message t
+      scroll-margin 1              ;; do smooth scrolling    
+      scroll-conservatively 100000
+      scroll-up-aggressively 0.01
+      scroll-down-aggressively 0.01
+      ring-bell-function 'ignore   ;; disable Emacs sound
+      backup-inhibited t           ;; no backup files
+      delete-by-moving-to-trash t) ;; delete moves to recycle bin)
+     
 ;; don't show the toolbar and scrollbar
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -8,22 +18,15 @@
 ;; shortcut for typing in yes or no
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; don't show startup messages
-(setq inhibit-startup-message t
-      inhibit-startup-echo-area-message t)
+;; show argument list and help for identifier under cursor
+(eldoc-mode 1)
 
-;; increase from default of 70.
-(setq-default fill-column 80)
+;; show pop-up with completions
+(global-company-mode)
 
 ;; change font
 (add-to-list 'default-frame-alist
              '(font . "DejaVu Sans Mono-10"))
-
-;; do smooth scrolling
-(setq scroll-margin 1     
-      scroll-conservatively 100000
-      scroll-up-aggressively 0.01
-      scroll-down-aggressively 0.01)
 
 ;; always do syntax highlighting
 (global-font-lock-mode t)
@@ -31,36 +34,21 @@
 ;; don't blink cursor
 (blink-cursor-mode 0)
 
-;; disable Emacs sound
-(setq ring-bell-function 'ignore)
-
-;; no backup files
-(setq backup-inhibited t)
-
-;; delete moves to recycle bin
-(setq delete-by-moving-to-trash t)
-
 ;; show column numbers
 (column-number-mode t)
 
 ;; show file size
 (size-indication-mode t)
 
-;; hide but one star in outline
-(setq org-hide-leading-stars t)
-
-;; align items nicely
-(setq org-add-levels-only t)
+(setq org-hide-leading-stars t ;; hide but one star in outline
+      org-add-levels-only t    ;; align items nicely
+      org-add-levels-only t    ;; align items nicely
+      org-clock-out-remove-zero-time-clocks t ;; remove 0-duration clocked
+      org-clock-into-drawer t) ;; clock time in :LOGBOOK: draw
 
 ;; keep track of time across sessions
 (setq org-clock-persist t)
 (org-clock-persistence-insinuate)
-
-;; remove 0-duration clocked
-(setq org-clock-out-remove-zero-time-clocks t)
-
-;; clock time in :LOGBOOK: draw
-(setq org-clock-into-drawer t)
 
 ;; resize windows
 ;; https://www.emacswiki.org/emacs/WindowResize
@@ -135,7 +123,8 @@
   (setq magit-push-always-verify nil)
   (setq git-commit-summary-max-length 50)
   :bind
-    ("M-g" . magit-status))
+  ("C-c m s" . magit-status)
+  ("C-c m l" . magit-log))
 
 (use-package git-gutter
   :ensure t)
@@ -145,6 +134,11 @@
   :config
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 3))
+
+(use-package company-lsp
+  :ensure t
+  :config
+  (push 'company-lsp company-backends)) 
 
 (use-package projectile
   :ensure t
@@ -165,13 +159,53 @@
 (use-package csharp-mode
   :ensure t)
 
+(use-package go-mode
+  :ensure t)
+
+(use-package rust-mode
+  :ensure t)
+
 (use-package lsp-mode
   :ensure t
   :hook (csharp-mode . lsp)
   :commands lsp)
 
-(use-package lsp-ui :commands lsp-ui-mode)
-(use-package company-lsp :commands company-lsp)
-(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+(use-package company-lsp
+  :ensure t
+  :config
+  (push 'company-lsp company-backends)) 
+
+;; https://github.com/magnars/multiple-cursors.el
+(use-package multiple-cursors
+  :ensure t)
+
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->")         'mc/mark-next-like-this)
+(global-set-key (kbd "C-<")         'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<")     'mc/mark-all-like-this)
+(global-set-key (kbd "C-\"")        'mc/skip-to-next-like-this)
+(global-set-key (kbd "C-:")         'mc/skip-to-previous-like-this)
+
+;; https://github.com/magnars/expand-region.el
+(use-package expand-region
+  :ensure t)
+
+;; use M-up/M-down to move selection up and down
+(use-package move-text
+  :ensure t)
+(global-set-key (kbd "<M-up>") 'move-text-up)
+(global-set-key (kbd "<M-down>") 'move-text-down)
 
 (load-theme 'deeper-blue)
+
+(defun rh/duplicate-line ()
+  "Duplicate current line"
+  (interactive)
+  (move-beginning-of-line 1)
+  (kill-line)
+  (yank)
+  (newline)
+  (yank))
+
+(global-set-key (kbd "C-,") 'rh/duplicate-line)
