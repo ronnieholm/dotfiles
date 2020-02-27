@@ -189,7 +189,10 @@
 
 ;; https://github.com/magnars/expand-region.el
 (use-package expand-region
-  :ensure t)
+  :ensure t
+  :bind
+  ("C-=" . er/expand-region)
+  ("C--" . er/contract-region))
 
 ;; use M-up/M-down to move selection up and down
 (use-package move-text

@@ -5,3 +5,12 @@ org-clock-save.el
 /url
 /ac-comphist.dat
 ido.last
+.cache
+.lsp-session*
+elpy
+eshell
+projectile*
+recentf
+session*
+transient
+bookmarks
