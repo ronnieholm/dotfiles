@@ -89,6 +89,15 @@
   :ensure t
   :config (which-key-mode))
 
+;; better minibuffer completions. Use of ido or helm is mutually exclusive.
+;;(ido-mode t)
+;;(setq ido-everywhere t)
+;;(setq ido-enable-flex-matching t)
+
+(use-package helm
+  :ensure t
+  :config (helm-mode 1))
+
 (use-package markdown-mode
   :ensure t
   :commands (markdown-mode gfm-mode)
