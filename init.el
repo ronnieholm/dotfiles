@@ -21,9 +21,6 @@
 ;; show argument list and help for identifier under cursor
 (eldoc-mode 1)
 
-;; show pop-up with completions
-(global-company-mode)
-
 ;; change font
 (add-to-list 'default-frame-alist
              '(font . "DejaVu Sans Mono-10"))
@@ -144,6 +141,8 @@
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 3))
 
+(global-company-mode)
+
 (use-package company-lsp
   :ensure t
   :config
@@ -178,11 +177,6 @@
   :ensure t
   :hook (csharp-mode . lsp)
   :commands lsp)
-
-(use-package company-lsp
-  :ensure t
-  :config
-  (push 'company-lsp company-backends)) 
 
 ;; https://github.com/magnars/multiple-cursors.el
 (use-package multiple-cursors
