@@ -58,7 +58,11 @@
 ;; https://www.emacswiki.org/emacs/WindMove
 ;; The defautl S-arrow keybinding is incompatible with org-mode
 ;;(when (fboundp 'windmove-default-keybindings)
-;;  (windmove-default-keybindings 'S-C))
+;;  (windmove-default-keybindings 'S))
+(global-set-key (kbd "C-c <left>")  'windmove-left)
+(global-set-key (kbd "C-c <right>") 'windmove-right)
+(global-set-key (kbd "C-c <up>")    'windmove-up)
+(global-set-key (kbd "C-c <down>")  'windmove-down)
 
 ;; add paths recursively
 (let ((default-directory "~/.emacs.d/site-lisp/"))
