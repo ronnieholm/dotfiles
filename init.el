@@ -49,15 +49,16 @@
 
 ;; resize windows
 ;; https://www.emacswiki.org/emacs/WindowResize
-(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-(global-set-key (kbd "S-C-<down>") 'shrink-window)
-(global-set-key (kbd "S-C-<up>") 'enlarge-window)
+;;(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+;;(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+;;(global-set-key (kbd "S-C-<down>") 'shrink-window)
+;;(global-set-key (kbd "S-C-<up>") 'enlarge-window)
 
 ;; move cursor between windows
 ;; https://www.emacswiki.org/emacs/WindMove
-(when (fboundp 'windmove-default-keybindings)
-  (windmove-default-keybindings))
+;; The defautl S-arrow keybinding is incompatible with org-mode
+;;(when (fboundp 'windmove-default-keybindings)
+;;  (windmove-default-keybindings 'S-C))
 
 ;; add paths recursively
 (let ((default-directory "~/.emacs.d/site-lisp/"))
