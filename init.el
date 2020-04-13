@@ -1,16 +1,16 @@
-(setq user-full-name "Ronnie Holm"
-      user-mail-address "mail@bugfree.dk"
-      fill-column 80               ;; increase from default of 70.
-      inhibit-startup-message t    ;; don't show startup messages
-      inhibit-startup-echo-area-message t
-      scroll-margin 1              ;; do smooth scrolling    
-      scroll-conservatively 100000
-      scroll-up-aggressively 0.01
-      scroll-down-aggressively 0.01
-      ring-bell-function 'ignore   ;; disable Emacs sound
-      backup-inhibited t           ;; no backup files
-      delete-by-moving-to-trash t) ;; delete moves to recycle bin)
-     
+(setq user-full-name "Ronnie Holm")
+(setq user-mail-address "mail@bugfree.dk")
+(setq fill-column 80)               ;; increase from default of 70.
+(setq inhibit-startup-message t)
+(setq inhibit-startup-echo-area-message t)
+(setq scroll-margin 1)              ;; do smooth scrolling
+(setq scroll-conservatively 100000)
+(setq scroll-up-aggressively 0.01)
+(setq scroll-down-aggressively 0.01)
+(setq ring-bell-function 'ignore)   ;; disable Emacs sound
+(setq backup-inhibited t)
+(setq delete-by-moving-to-trash t)  ;; delete moves to recycle bin
+
 ;; don't show the toolbar and scrollbar
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -25,23 +25,16 @@
 (add-to-list 'default-frame-alist
              '(font . "DejaVu Sans Mono-10"))
 
-;; always do syntax highlighting
 (global-font-lock-mode t)
-
-;; don't blink cursor
 (blink-cursor-mode 0)
-
-;; show column numbers
 (column-number-mode t)
-
-;; show file size
 (size-indication-mode t)
 
-(setq org-hide-leading-stars t ;; hide but one star in outline
-      org-add-levels-only t    ;; align items nicely
-      org-add-levels-only t    ;; align items nicely
-      org-clock-out-remove-zero-time-clocks t ;; remove 0-duration clocked
-      org-clock-into-drawer t) ;; clock time in :LOGBOOK: draw
+(setq org-hide-leading-stars t
+      org-add-levels-only t
+      org-add-levels-only t
+      org-clock-out-remove-zero-time-clocks t
+      org-clock-into-drawer t) ;; clock time in :LOGBOOK: drawer
 
 ;; keep track of time across sessions
 (setq org-clock-persist t)
@@ -68,14 +61,12 @@
 (let ((default-directory "~/.emacs.d/site-lisp/"))
   (setq load-path
     (append
-         ;; Shadow
          (let ((load-path (copy-sequence load-path)))
            (append 
             (copy-sequence (normal-top-level-add-to-load-path '(".")))
             (normal-top-level-add-subdirs-to-load-path)))
          load-path)))
 
-;; initialize MELPA
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -91,7 +82,7 @@
   :ensure t
   :config (which-key-mode))
 
-;; better minibuffer completions. Use of ido or helm is mutually exclusive.
+;; better minibuffer completions. Use of ido and helm are mutually exclusive.
 ;;(ido-mode t)
 ;;(setq ido-everywhere t)
 ;;(setq ido-enable-flex-matching t)
@@ -143,9 +134,8 @@
 (use-package company
   :ensure t
   :config
-  (setq company-idle-delay 0)
+  (setq company-idle-delay 1)
   (setq company-minimum-prefix-length 3))
-
 (global-company-mode)
 
 (use-package company-lsp
@@ -207,6 +197,11 @@
   :ensure t)
 (global-set-key (kbd "<M-up>") 'move-text-up)
 (global-set-key (kbd "<M-down>") 'move-text-down)
+
+;; https://github.com/abo-abo/avy
+(use-package avy
+  :ensure t)
+(global-set-key (kbd "C-:") 'avy-goto-char)
 
 (load-theme 'deeper-blue)
 
