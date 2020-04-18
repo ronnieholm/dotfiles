@@ -40,6 +40,10 @@
 (setq org-clock-persist t)
 (org-clock-persistence-insinuate)
 
+(add-hook 'org-mode-hook
+	  '(lambda()
+	     (setq fill-column 80)))
+
 ;; resize windows
 ;; https://www.emacswiki.org/emacs/WindowResize
 ;;(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
@@ -98,6 +102,10 @@
          ("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
+
+(add-hook 'markdown-mode-hook
+	  '(lambda()
+	     (setq fill-column 80)))
 
 (use-package ox-twbs
   :ensure t)
@@ -161,6 +169,10 @@
 
 (use-package csharp-mode
   :ensure t)
+
+(add-hook 'csharp-mode-hook
+	  '(lambda()
+	     (setq fill-column 80)))
 
 (use-package go-mode
   :ensure t)
