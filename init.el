@@ -1,6 +1,5 @@
 (setq user-full-name "Ronnie Holm")
 (setq user-mail-address "mail@bugfree.dk")
-(setq fill-column 80)               ;; increase from default of 70.
 (setq inhibit-startup-message t)
 (setq inhibit-startup-echo-area-message t)
 (setq scroll-margin 1)              ;; do smooth scrolling
@@ -10,6 +9,10 @@
 (setq ring-bell-function 'ignore)   ;; disable Emacs sound
 (setq backup-inhibited t)
 (setq delete-by-moving-to-trash t)  ;; delete moves to recycle bin
+(setq-default fill-column 80)       ;; increase from default of 70.
+(setq-default indent-tabs-mode nil) ;; space over tabs
+(setq-default tab-width 4)
+(setq-default compilation-scroll-output t)
 
 ;; don't show the toolbar and scrollbar
 (tool-bar-mode -1)
@@ -22,8 +25,12 @@
 (eldoc-mode 1)
 
 ;; change font
-(add-to-list 'default-frame-alist
-             '(font . "DejaVu Sans Mono-10"))
+(defun rh/get-default-font ()
+  (cond
+   ((eq system-type 'windows-nt) "Consolas-10")
+   ((eq system-type 'gnu/linux) "DejaVu Sans Mono-10")))
+
+(add-to-list 'default-frame-alist `(font . ,(rh/get-default-font)))
 
 (global-font-lock-mode t)
 (blink-cursor-mode 0)
@@ -39,10 +46,6 @@
 ;; keep track of time across sessions
 (setq org-clock-persist t)
 (org-clock-persistence-insinuate)
-
-(add-hook 'org-mode-hook
-	  '(lambda()
-	     (setq fill-column 80)))
 
 ;; resize windows
 ;; https://www.emacswiki.org/emacs/WindowResize
@@ -71,6 +74,7 @@
             (normal-top-level-add-subdirs-to-load-path)))
          load-path)))
 
+(package-initialize)
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -102,10 +106,6 @@
          ("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
-
-(add-hook 'markdown-mode-hook
-	  '(lambda()
-	     (setq fill-column 80)))
 
 (use-package ox-twbs
   :ensure t)
@@ -172,7 +172,7 @@
 
 (add-hook 'csharp-mode-hook
 	  '(lambda()
-	     (setq fill-column 80)))
+	     (electric-pair-mode)))
 
 (use-package go-mode
   :ensure t)
@@ -182,7 +182,7 @@
 
 (use-package lsp-mode
   :ensure t
-  :hook (csharp-mode . lsp)
+;;  :hook (csharp-mode . lsp)  ;; omnisharp not working with Emacs
   :commands lsp)
 
 ;; https://github.com/magnars/multiple-cursors.el
