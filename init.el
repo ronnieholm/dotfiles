@@ -86,6 +86,23 @@
 (use-package try
   :ensure t)
 
+;; default is c-x w <number> but that's a lot of typing
+;;(winum-set-keymap-prefix (kbd "½"))
+
+(setq winum-keymap
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "<f5>") 'winum-select-window-1)
+      (define-key map (kbd "<f6>") 'winum-select-window-2)
+      (define-key map (kbd "<f7>") 'winum-select-window-3)
+      (define-key map (kbd "<f8>") 'winum-select-window-4)
+      map))
+
+;; alternative to windmove
+(use-package winum
+  :ensure t)
+
+(winum-mode)
+
 (use-package which-key
   :ensure t
   :config (which-key-mode))
