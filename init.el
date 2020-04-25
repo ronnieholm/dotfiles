@@ -191,7 +191,9 @@
 
 (add-hook 'csharp-mode-hook
 	  '(lambda()
-	     (electric-pair-mode)))
+	     (electric-pair-mode)
+         (local-set-key (kbd "C-c b") 'recompile)
+         (setq truncate-lines -1)))
 
 (use-package go-mode
   :ensure t)
