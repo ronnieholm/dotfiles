@@ -53,7 +53,7 @@
 
 ;; move cursor between windows
 ;; https://www.emacswiki.org/emacs/WindMove
-;; The defautl S-arrow keybinding is incompatible with org-mode
+;; The default S-arrow keybinding is incompatible with org-mode
 ;;(when (fboundp 'windmove-default-keybindings)
 ;;  (windmove-default-keybindings 'S))
 (global-set-key (kbd "C-c <left>")  'windmove-left)
@@ -160,6 +160,7 @@
   :config
   (setq company-idle-delay 1)
   (setq company-minimum-prefix-length 3))
+
 (global-company-mode)
 
 (use-package company-lsp
@@ -242,6 +243,7 @@
 ;; https://github.com/abo-abo/avy
 (use-package avy
   :ensure t)
+
 (global-set-key (kbd "C-;") 'avy-goto-char)
 (global-set-key (kbd "C-:") 'avy-goto-char-2)
 
