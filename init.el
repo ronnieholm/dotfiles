@@ -21,9 +21,6 @@
 ;; shortcut for typing in yes or no
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; show argument list and help for identifier under cursor
-(eldoc-mode 1)
-
 ;; change font
 (defun rh/get-default-font ()
   (cond
@@ -190,10 +187,21 @@
   :ensure t)
 
 (add-hook 'csharp-mode-hook
-	  '(lambda()
-	     (electric-pair-mode)
-         (local-set-key (kbd "C-c b") 'recompile)
-         (setq truncate-lines -1)))
+	      '(lambda()
+	         (electric-pair-mode)
+             (local-set-key (kbd "C-c b") 'recompile)
+             (setq truncate-lines -1)))
+
+(use-package paredit
+  :ensure t)
+
+(add-hook 'emacs-lisp-mode-hook
+          '(lambda()
+             ;; show argument list and help for identifier under cursor
+             (eldoc-mode 1)
+             ;; edit lisp code on always valid AST
+             ;;(paredit-mode)
+             ))
 
 (use-package go-mode
   :ensure t)
@@ -237,7 +245,20 @@
 (global-set-key (kbd "C-;") 'avy-goto-char)
 (global-set-key (kbd "C-:") 'avy-goto-char-2)
 
-(load-theme 'deeper-blue)
+(use-package evil
+  :ensure t)
+
+(defun evil-keyboard-quit ()
+  "Keyboard quit and force normal state."
+  (interactive)
+  (and evil-mode (evil-force-normal-state))
+  (keyboard-quit))
+
+(define-key evil-normal-state-map   (kbd "C-g") #'evil-keyboard-quit) 
+(define-key evil-motion-state-map   (kbd "C-g") #'evil-keyboard-quit) 
+(define-key evil-insert-state-map   (kbd "C-g") #'evil-keyboard-quit) 
+(define-key evil-window-map         (kbd "C-g") #'evil-keyboard-quit) 
+(define-key evil-operator-state-map (kbd "C-g") #'evil-keyboard-quit)
 
 (defun rh/duplicate-line ()
   "Duplicate current line"
@@ -249,3 +270,5 @@
   (yank))
 
 (global-set-key (kbd "C-,") 'rh/duplicate-line)
+
+(load-theme 'deeper-blue)
