@@ -10,13 +10,17 @@
 (setq backup-inhibited t)
 (setq delete-by-moving-to-trash t)  ;; delete moves to recycle bin
 (setq-default fill-column 80)       ;; increase from default of 70.
-(setq-default indent-tabs-mode nil) ;; space over tabs
+(setq-default indent-tabs-mode nil) ;; spaces over tabs
 (setq-default tab-width 4)
 (setq-default compilation-scroll-output t)
 
 ;; don't show the toolbar and scrollbar
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+
+;; line numbering
+(global-display-line-numbers-mode)
+(setq display-line-numbers-type 'absolute)
 
 ;; shortcut for typing in yes or no
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -100,6 +104,12 @@
 
 (winum-mode)
 
+;; Sacha Chua: Emacs microhabit - Switching windows
+;; https://www.youtube.com/watch?v=nKCKuRuvAOw
+(use-package ace-window
+  :ensure t
+  :bind ("C-x o" . ace-window))
+
 (use-package which-key
   :ensure t
   :config (which-key-mode))
@@ -113,7 +123,14 @@
   :ensure t
   :config (helm-mode 1))
 
-(global-set-key (kbd "M-x") #'helm-M-x)
+;;(setq helm-split-window-in-side-p t
+;;      helm-move-to-line-cycle-in-source t)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "M-c") 'helm-calcul-expression)
+(global-set-key (kbd "C-s") 'helm-occur)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-h a") 'helm-apropos)
 
 (use-package markdown-mode
   :ensure t
