@@ -290,4 +290,9 @@
 
 (global-set-key (kbd "C-,") 'rh/duplicate-line)
 
-(load-theme 'deeper-blue)
+;(load-theme 'deeper-blue)
+
+(use-package dracula-theme
+  :config
+  (load-theme 'dracula t)
+  :ensure t)
