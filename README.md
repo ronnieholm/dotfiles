@@ -1,11 +1,9 @@
-Create symbolic links
+On Linux:
 
-    # Windows, PowerShell
-    cmd /c "mklink /j E:\Shared\Software\emacs-24.3\.emacs.d E:\git\emacs.d"
+    $ ln -s ~/git/emacs.d ~/.emacs.d
 
-    # Linux, Bash
-    ln -s ~/git/emacs.d ~/.emacs.d
+On Windows
 
-On Windows, I launch Emacs with this shortcut:
-
-    C:\Windows\System32\cmd.exe /C "set HOME=E:\Shared\Software\emacs-24.3&&E:\Shared\Software\emacs-24.3\bin\runemacs.exe"
+    $ cd c:\users\rh\downloads\emacs-26.3-x86_64
+    $ git clone https://github.com/ronnieholm/emacs.d.git .emacs.d
+    $ C:\Windows\System32\cmd.exe /C "set HOME=c:\users\rh\downloads\emacs-26.3-x86_64&&c:\users\rh\downloads\emacs-26.3-x86_64\bin\runemacs.exe"
