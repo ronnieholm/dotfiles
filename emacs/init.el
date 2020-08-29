@@ -272,6 +272,17 @@
 (global-set-key (kbd "C-;") 'avy-goto-char)
 (global-set-key (kbd "C-:") 'avy-goto-char-2)
 
+;; Alternative to evil mode. Global minor mode for entering Emacs
+;; commands without modifier keys. 
+;; https://github.com/emacsorphanage/god-mode
+(use-package god-mode
+  :ensure t)
+
+(require 'god-mode)
+;;(god-mode)
+(global-set-key (kbd "<escape>") #'god-local-mode)
+(define-key god-local-mode-map (kbd ".") #'repeat)
+
 (use-package evil
   :ensure t)
 
