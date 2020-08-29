@@ -6,9 +6,11 @@ set fileencoding=utf-8
 set fileencodings=utf-8
 
 call plug#begin('~/.vim/.pluggins')
+Plug 'mg979/vim-visual-multi'
 Plug 'airblade/vim-rooter'
 Plug 'scrooloose/nerdtree'
 Plug 'arcticicestudio/nord-vim'
+Plug 'tomasiser/vim-code-dark'
 Plug 'dense-analysis/ale'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -65,7 +67,8 @@ let mapleader = ','
 " Configure colors
 set termguicolors
 syntax enable
-colorscheme nord
+"colorscheme nord
+colorscheme codedark
 
 " Open fzf to search into the open buffers
 nnoremap <silent> <C-O> :Buffers<CR>
@@ -93,6 +96,10 @@ inoremap jk <Esc>
 
 " Tell ALE to use OmniSharp for linting C# files, and no other linters.
 let g:ale_linters = { 'cs': ['OmniSharp'] }
+
+" Nerdtree
+nmap <C-N> :NERDTreeToggle<enter>
+nmap <C-T> :NERDTreeFocus<enter>
 
 augroup omnisharp_commands
   autocmd!

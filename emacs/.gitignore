@@ -1,9 +1,10 @@
-/auto-save-list
+FsAutoComplete
+auto-save-list
 org-clock-save.el
-/saveplace
-/elpa
-/url
-/ac-comphist.dat
+saveplace
+elpa
+url
+ac-comphist.dat
 ido.last
 .cache
 .lsp-session*
