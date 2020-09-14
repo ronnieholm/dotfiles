@@ -132,13 +132,21 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-h a") 'helm-apropos)
 
+;; https://leanpub.com/markdown-mode/read
 (use-package markdown-mode
   :ensure t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :init
+  (setq markdown-command
+        (concat "pandoc"
+                " --from=markdown --to=html"
+                " --standalone --mathjax --highlight-style=pygments")))
+
+(use-package markdown-toc
+  :ensure t)
 
 (use-package ox-twbs
   :ensure t)
