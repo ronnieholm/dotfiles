@@ -245,6 +245,7 @@
 (global-set-key (kbd "C-c C-<")     'mc/mark-all-like-this)
 (global-set-key (kbd "C-\"")        'mc/skip-to-next-like-this)
 (global-set-key (kbd "C-:")         'mc/skip-to-previous-like-this)
+(global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
 
 ;; https://github.com/magnars/expand-region.el
 (use-package expand-region
@@ -263,6 +264,7 @@
 (global-set-key (kbd "C-;") 'avy-goto-char)
 (global-set-key (kbd "C-:") 'avy-goto-char-2)
 
+;; See https://www.youtube.com/watch?feature=youtu.be&v=xaZMwNELaJY&app=desktop at 27m00s
 (use-package evil)
 
 (defun evil-keyboard-quit ()
