@@ -21,6 +21,10 @@
 ;; line numbering
 (global-display-line-numbers-mode)
 (setq display-line-numbers-type 'absolute)
+  (dolist (mode '(term-mode-hook
+                shell-mode-hook
+                eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; shortcut for typing in yes or no
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -84,8 +88,12 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(use-package try
-  :ensure t)
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+(use-package try)
+
+(use-package helpful)
 
 ;; default is c-x w <number> but that's a lot of typing
 ;;(winum-set-keymap-prefix (kbd "½"))
@@ -99,19 +107,16 @@
       map))
 
 ;; alternative to windmove
-(use-package winum
-  :ensure t)
+(use-package winum)
 
 (winum-mode)
 
 ;; Sacha Chua: Emacs microhabit - Switching windows
 ;; https://www.youtube.com/watch?v=nKCKuRuvAOw
 (use-package ace-window
-  :ensure t
   :bind ("C-x o" . ace-window))
 
 (use-package which-key
-  :ensure t
   :config (which-key-mode))
 
 ;; better minibuffer completions. Use of ido and helm are mutually exclusive.
@@ -120,7 +125,6 @@
 ;;(setq ido-enable-flex-matching t)
 
 (use-package helm
-  :ensure t
   :config (helm-mode 1))
 
 ;;(setq helm-split-window-in-side-p t
@@ -134,7 +138,6 @@
 
 ;; https://leanpub.com/markdown-mode/read
 (use-package markdown-mode
-  :ensure t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . gfm-mode)
@@ -145,21 +148,17 @@
                 " --from=markdown --to=html"
                 " --standalone --mathjax --highlight-style=pygments")))
 
-(use-package markdown-toc
-  :ensure t)
+(use-package markdown-toc)
 
-(use-package ox-twbs
-  :ensure t)
+(use-package ox-twbs)
 
 (use-package dashboard
-  :ensure t
   :config
     (dashboard-setup-startup-hook)
     (setq dashboard-items '((recents  . 10)))
     (setq dashboard-banner-logo-title "Welcome to Emacs"))
 
 (use-package spaceline
-  :ensure t
   :config
   (require 'spaceline-config)
     (setq spaceline-buffer-encoding-abbrev-p nil)
@@ -169,7 +168,6 @@
     (spaceline-spacemacs-theme))
 
 (use-package magit
-  :ensure t
   :config
   (setq magit-push-always-verify nil)
   (setq git-commit-summary-max-length 50)
@@ -177,11 +175,9 @@
   ("C-c m s" . magit-status)
   ("C-c m l" . magit-log))
 
-(use-package git-gutter
-  :ensure t)
+(use-package git-gutter)
 
 (use-package company
-  :ensure t
   :config
   (setq company-idle-delay 1)
   (setq company-minimum-prefix-length 3))
@@ -189,12 +185,10 @@
 (global-company-mode)
 
 (use-package company-lsp
-  :ensure t
   :config
   (push 'company-lsp company-backends)) 
 
 (use-package projectile
-  :ensure t
   :config
   (projectile-mode)
   (setq projectile-enable-caching t)
@@ -206,11 +200,9 @@
   (setq projectile-globally-ignored-files '("TAGS" "tags" ".DS_Store")))
 
 (use-package neotree
-  :ensure t
   :bind (("<f2>" . neotree-toggle)))
 
-(use-package csharp-mode
-  :ensure t)
+(use-package csharp-mode)
 
 (add-hook 'csharp-mode-hook
 	      '(lambda()
@@ -219,15 +211,13 @@
              (setq truncate-lines -1)))
 
 (use-package fsharp-mode
-  :defer t
-  :ensure t)
+  :defer t)
 
 (require 'fsharp-mode)
 (require 'eglot-fsharp)
 (add-hook 'fsharp-mode-hook 'eglot-ensure)
 
-(use-package paredit
-  :ensure t)
+(use-package paredit)
 
 (add-hook 'emacs-lisp-mode-hook
           '(lambda()
@@ -237,20 +227,16 @@
              ;;(paredit-mode)
              ))
 
-(use-package go-mode
-  :ensure t)
+(use-package go-mode)
 
-(use-package rust-mode
-  :ensure t)
+(use-package rust-mode)
 
 (use-package lsp-mode
-  :ensure t
 ;;  :hook (csharp-mode . lsp)  ;; omnisharp not working with Emacs
   :commands lsp)
 
 ;; https://github.com/magnars/multiple-cursors.el
-(use-package multiple-cursors
-  :ensure t)
+(use-package multiple-cursors)
 
 (require 'multiple-cursors)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
@@ -262,37 +248,22 @@
 
 ;; https://github.com/magnars/expand-region.el
 (use-package expand-region
-  :ensure t
   :bind
   ("C-=" . er/expand-region)
   ("C--" . er/contract-region))
 
 ;; use M-up/M-down to move selection up and down
-(use-package move-text
-  :ensure t)
+(use-package move-text)
 (global-set-key (kbd "<M-up>") 'move-text-up)
 (global-set-key (kbd "<M-down>") 'move-text-down)
 
 ;; https://github.com/abo-abo/avy
-(use-package avy
-  :ensure t)
+(use-package avy)
 
 (global-set-key (kbd "C-;") 'avy-goto-char)
 (global-set-key (kbd "C-:") 'avy-goto-char-2)
 
-;; Alternative to evil mode. Global minor mode for entering Emacs
-;; commands without modifier keys. 
-;; https://github.com/emacsorphanage/god-mode
-(use-package god-mode
-  :ensure t)
-
-(require 'god-mode)
-;;(god-mode)
-(global-set-key (kbd "<escape>") #'god-local-mode)
-(define-key god-local-mode-map (kbd ".") #'repeat)
-
-(use-package evil
-  :ensure t)
+(use-package evil)
 
 (defun evil-keyboard-quit ()
   "Keyboard quit and force normal state."
@@ -321,5 +292,4 @@
 
 (use-package dracula-theme
   :config
-  (load-theme 'dracula t)
-  :ensure t)
+  (load-theme 'dracula t))
