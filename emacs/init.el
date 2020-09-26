@@ -197,7 +197,16 @@
       '("#" "~" ".swp" ".o" ".so" ".exe" ".dll" ".elc" ".pyc" ".jar"))
   (setq projectile-globally-ignored-directories
       '(".git" "node_modules" "__pycache__" ".vs"))
-  (setq projectile-globally-ignored-files '("TAGS" "tags" ".DS_Store")))
+  (setq projectile-globally-ignored-files '("TAGS" "tags" ".DS_Store"))
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  (when (file-directory-p "~/git")
+    (setq projectile-project-search-path '("~/git")))
+  (setq projectile-switch-project-action #'projectile-dired))
+
+(use-package helm-projectile)
+(helm-projectile-on)
 
 (use-package neotree
   :bind (("<f2>" . neotree-toggle)))
