@@ -209,7 +209,9 @@
 (helm-projectile-on)
 
 (use-package neotree
-  :bind (("<f2>" . neotree-toggle)))
+  :bind (("<f2>" . neotree-toggle))
+  :config
+  (setq neo-window-fixed-size nil))
 
 (use-package csharp-mode)
 
