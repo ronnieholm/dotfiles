@@ -1,5 +1,8 @@
 (setq user-full-name "Ronnie Holm")
 (setq user-mail-address "mail@bugfree.dk")
+(setq calendar-latitude 55.58556)
+(setq calendar-longitude 12.13139)
+(setq calendar-location-name "Roskilde")
 (setq inhibit-startup-message t)
 (setq inhibit-startup-echo-area-message t)
 (setq scroll-margin 1)              ;; do smooth scrolling
@@ -156,7 +159,8 @@
   :config
     (dashboard-setup-startup-hook)
     (setq dashboard-items '((recents  . 10)))
-    (setq dashboard-banner-logo-title "Welcome to Emacs"))
+    (setq dashboard-banner-logo-title
+          (format "%s" (sunrise-sunset()))))
 
 (use-package spaceline
   :config
@@ -351,3 +355,5 @@
 (use-package dracula-theme
   :config
   (load-theme 'dracula t))
+
+(sunrise-sunset)
