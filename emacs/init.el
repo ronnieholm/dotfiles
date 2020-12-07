@@ -55,6 +55,12 @@
 (setq org-clock-persist t)
 (org-clock-persistence-insinuate)
 
+(global-set-key (kbd "<f12>") (lambda() (interactive) (find-file "~/.emacs.d/init.el")))
+(global-set-key (kbd "<f11>") (lambda() (interactive) (find-file "~/Downloads/Life.md")))
+
+;; Dired
+(setq dired-listing-switches "-alh")
+
 ;; resize windows
 ;; https://www.emacswiki.org/emacs/WindowResize
 ;;(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
@@ -287,7 +293,7 @@
   (setq evil-want-keybinding nil)
   (setq evil-want-C-u-scroll t) ;; Instead of C-u for universal arguments, make C-u scroll up and C-d scroll down
   :config
-  (evil-mode t)
+  ;;(evil-mode t)
   (define-key helm-map (kbd "C-j") 'helm-next-line)
   (define-key helm-map (kbd "C-k") 'helm-previous-line)
   (define-key helm-map (kbd "C-h") 'helm-next-source)
