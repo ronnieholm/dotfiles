@@ -23,7 +23,7 @@
 
 ;; line numbering
 (global-display-line-numbers-mode)
-(setq display-line-numbers-type 'absolute)
+(setq display-line-numbers-type 'relative)
   (dolist (mode '(term-mode-hook
                 shell-mode-hook
                 eshell-mode-hook))
@@ -284,66 +284,6 @@
 
 (global-set-key (kbd "C-;") 'avy-goto-char)
 (global-set-key (kbd "C-:") 'avy-goto-char-2)
-
-;; See https://www.youtube.com/watch?feature=youtu.be&v=xaZMwNELaJY&app=desktop at 27m00s
-
-(use-package evil
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (setq evil-want-C-u-scroll t) ;; Instead of C-u for universal arguments, make C-u scroll up and C-d scroll down
-  :config
-  ;;(evil-mode t)
-  (define-key helm-map (kbd "C-j") 'helm-next-line)
-  (define-key helm-map (kbd "C-k") 'helm-previous-line)
-  (define-key helm-map (kbd "C-h") 'helm-next-source)
-  (define-key helm-map (kbd "C-S-h") 'describe-key)
-  (define-key helm-map (kbd "C-l") (kbd "RET"))
-  (define-key helm-map [escape] 'helm-keyboard-quit)
-  (define-key evil-normal-state-map   (kbd "C-g") #'evil-keyboard-quit)
-  (define-key evil-motion-state-map   (kbd "C-g") #'evil-keyboard-quit)
-  (define-key evil-insert-state-map   (kbd "C-g") #'evil-keyboard-quit)
-  (define-key evil-window-map         (kbd "C-g") #'evil-keyboard-quit)
-  (define-key evil-operator-state-map (kbd "C-g") #'evil-keyboard-quit)
-
-  ;; Use visual line motions even outside of visual-line-mode buffer.
-  ;; By default j and k in evil mode goes to the next line. With the
-  ;; configuration below, in wrapped lines, j and k go the next
-  ;; sentence instead.
-  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-
-  (dolist (keymap (list helm-find-files-map helm-read-file-map))
-    (define-key keymap (kbd "C-l") 'helm-execute-persistent-action)
-    (define-key keymap (kbd "C-h") 'helm-find-files-up-one-level)
-    (define-key keymap (kbd "C-S-h") 'describe-key)))
-
-(defun evil-keyboard-quit ()
-  "Keyboard quit and force normal state."
-  (interactive)
-  (and evil-mode (evil-force-normal-state))
-  (keyboard-quit))
-
-;; Inspired by http://www.cachestocaches.com/2016/12/vim-within-emacs-anecdotal-guide
-;; In evil-mode, type :e or :b
-(define-key evil-ex-map "e" 'helm-find-files)
-(define-key evil-ex-map "b " 'helm-mini)
-
-(use-package evil-magit)
-
-;; Start the commit window in insert mode
-(add-hook 'with-editor-mode-hook 'evil-insert-state)
-
-;; Add evil bindings to accept/cancel commit
-(evil-define-key 'normal with-editor-mode-map
-  (kbd "RET") 'with-editor-finish
-  [escape] 'with-editor-cancel)
-
-;; https://github.com/emacs-evil/evil-collection
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
 
 (defun rh/duplicate-line ()
   "Duplicate current line"
