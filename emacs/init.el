@@ -16,6 +16,7 @@
 (setq-default indent-tabs-mode nil) ;; spaces over tabs
 (setq-default tab-width 4)
 (setq-default compilation-scroll-output t)
+(setq gc-cons-threshold (* 50 1024 1024)) ;; in bytes. Default is 800 KB
 
 ;; don't show the toolbar and scrollbar
 (tool-bar-mode -1)
