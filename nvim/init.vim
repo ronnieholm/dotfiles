@@ -145,3 +145,5 @@ augroup omnisharp_commands
   autocmd FileType cs nmap <silent> <buffer> <Leader>osst <Plug>(omnisharp_start_server)
   autocmd FileType cs nmap <silent> <buffer> <Leader>ossp <Plug>(omnisharp_stop_server)
 augroup END
+
+nmap <C-p> :FZF<cr>
