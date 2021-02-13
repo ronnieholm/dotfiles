@@ -232,12 +232,12 @@
              (local-set-key (kbd "C-c b") 'recompile)
              (setq truncate-lines -1)))
 
-(use-package fsharp-mode
-  :defer t)
-
-(require 'fsharp-mode)
-(require 'eglot-fsharp)
-(add-hook 'fsharp-mode-hook 'eglot-ensure)
+;(use-package fsharp-mode
+;  :defer t)
+;
+;(require 'fsharp-mode)
+;(require 'eglot-fsharp)
+;(add-hook 'fsharp-mode-hook 'eglot-ensure)
 
 (use-package paredit)
 
