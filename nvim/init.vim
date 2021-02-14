@@ -1,149 +1,178 @@
-" Vim Cheat Sheet
-" https://vim.rtorr.com/
+" Partially originates from https://github.com/aqez/dotfiles/blob/master/nvim/init.vim
+" https://www.youtube.com/watch?v=qGl_Mb2C87c
 
-set encoding=utf-8
-set fileencoding=utf-8
-set fileencodings=utf-8
-
-call plug#begin('~/.vim/.pluggins')
-Plug 'mg979/vim-visual-multi'
-Plug 'airblade/vim-rooter'
-Plug 'scrooloose/nerdtree'
-Plug 'arcticicestudio/nord-vim'
-Plug 'tomasiser/vim-code-dark'
-Plug 'dense-analysis/ale'
-Plug 'itchyny/lightline.vim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'ntpeters/vim-better-whitespace'
-Plug 'OmniSharp/omnisharp-vim'
+" Plugins
+call plug#begin('~/.vim/plugged')
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
+    Plug 'morhetz/gruvbox'
+    Plug 'tpope/vim-fugitive'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'preservim/nerdtree'
+    Plug 'ntpeters/vim-better-whitespace'
+    Plug 'puremourning/vimspector'
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'nvim-lua/completion-nvim'
+    Plug 'w0rp/ale'
+    Plug 'OmniSharp/omnisharp-vim'
+    Plug 'fatih/vim-go', { 'tag': '*' }
+    Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+    Plug 'tpope/vim-surround'
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'airblade/vim-gitgutter'
+    Plug 'tomtom/tcomment_vim'    
 call plug#end()
 
-set nomodeline
-set autoread
-
-filetype plugin indent on
-
-set noswapfile
-
-set wildmenu
-
-set number
-
-set showmatch
-
-set laststatus=2
-
-" Show tab as chars
-set list
-set listchars=tab:>-
-
-set incsearch
-
+" UI
+colorscheme gruvbox
+let g:gruvbox_contrast_dark = "hard"
+hi! Normal guibg=NONE ctermbg=NONE
+syntax on
+set colorcolumn=81
+set background=dark
+set ruler
+set backspace=eol,start,indent
 set ignorecase
-
+set smartcase
+set incsearch
+set lazyredraw
+set nohlsearch
+set magic
+set showmatch
+set foldcolumn=1
+set number
+set relativenumber
+set completeopt=menuone,noinsert,noselect
+set shortmess+=c
+set previewheight=10
+set laststatus=2
+set scrolloff=10
+set signcolumn=yes
+set expandtab
+set smarttab
+set shiftwidth=4
+set tabstop=4
+set autoindent
+set si
 set nowrap
 
-" Show existing tab as 4 spaces
-set tabstop=4
+" General
+filetype plugin on
+filetype indent on
+let mapleader=" "
+set clipboard=unnamedplus
 
-" Number of spaces when editing
-set softtabstop=4
-
-" Indents will have a width of 4
-set shiftwidth=4
-
-" On pressing tab, insert 4 spaces
-set expandtab
-
+" Files, backups and undo
+set nobackup
+set nowritebackup
+set noswapfile
 set hidden
 
-" Configure the behavior of the backspace in insert mode
-set backspace=indent,eol,start
+" Customer key bindins
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+map <C-j> :cn<CR>
+map <C-k> :cp<CR>
+nnoremap <Leader>h <C-w>h
+nnoremap <Leader>j <C-w>j
+nnoremap <Leader>k <C-w>k
+nnoremap <Leader>l <C-w>l
 
-set scrolloff=3
+" Go specific bindings
+au filetype go nmap <leader>t :w<CR>:GoTestFunc<CR>
+au filetype go nmap <leader>T :w<CR>:GoTest<CR>
+au filetype go nmap <leader>r :w<CR>:GoRun<CR>
 
-let mapleader = ','
+" Omnisharp
+let g:OmniSharp_popup_options = {
+\ 'winblend': 30,
+\ 'winhl': 'Normal:Normal'
+\}
 
-" Configure colors
-set termguicolors
-syntax enable
-"colorscheme nord
-colorscheme codedark
+" CoC config
+let g:coc_global_extensions = ['coc-emmet', 'coc-css', 'coc-html', 
+  \ 'coc-json', 'coc-prettier', 'coc-tsserver']
 
-" Open fzf to search into the open buffers
-nnoremap <silent> <C-O> :Buffers<CR>
+" if hidden is not set, TextEdit might fail.
+set hidden
+" Better display for messages
+set cmdheight=2
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+" always show signcolumns
+set signcolumn=yes
 
-" Open fzf to search into the open files
-nnoremap <silent> <C-P> :Files<CR>
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not
+" mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" Easy switch between document languages
-command! Da setlocal spelllang=da_dk
-command! En setlocal spelllang=en_us
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-" No arrow keys. Force yourself to use the home row
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
 
-" Left and right can switch buffers
-nnoremap <left> :bp<CR>
-nnoremap <right> :bn<CR>
+" Use `[c` and `]c` to navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
-inoremap jk <Esc>
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
-" Tell ALE to use OmniSharp for linting C# files, and no other linters.
-let g:ale_linters = { 'cs': ['OmniSharp'] }
+" vim-go
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_operators = 1
+let g:go_fmt_autosave = 1
+let g:go_fmt_command = "goimports"
+au filetype go inoremap <buffer> . .<C-x><C-o>
 
-" Nerdtree
-nmap <C-N> :NERDTreeToggle<enter>
-nmap <C-T> :NERDTreeFocus<enter>
+" NerdTree
+nnoremap <Leader>t :NERDTreeToggle<CR>
+let g:NERDTreeQuitOnOpen = 0
+let g:NERDTreeMinimalUI = 1
+" Automaticaly close nvim if NERDTree is only thing left open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-augroup omnisharp_commands
-  autocmd!
+" Vimspector
+let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 
-  " Show type information automatically when the cursor stops moving.
-  " Note that the type is echoed to the Vim command line, and will overwrite
-  " any other messages in this space including e.g. ALE linting messages.
-  autocmd CursorHold *.cs OmniSharpTypeLookup
+" FZF
+nmap <Leader><Tab> <Plug>(fzf-maps-n)
+nmap <Leader>p :Files<CR>
 
-  " The following commands are contextual, based on the cursor position.
-  autocmd FileType cs nmap <silent> <buffer> gd <Plug>(omnisharp_go_to_definition)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>osfu <Plug>(omnisharp_find_usages)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>osfi <Plug>(omnisharp_find_implementations)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>ospd <Plug>(omnisharp_preview_definition)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>ospi <Plug>(omnisharp_preview_implementations)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>ost <Plug>(omnisharp_type_lookup)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>osd <Plug>(omnisharp_documentation)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>osfs <Plug>(omnisharp_find_symbol)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>osfx <Plug>(omnisharp_fix_usings)
-  autocmd FileType cs nmap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
-  autocmd FileType cs imap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
+" LSP
+lua << EOF
+ local nvim_lsp = require('lspconfig')
 
-  " Navigate up and down by method/property/field
-  autocmd FileType cs nmap <silent> <buffer> [[ <Plug>(omnisharp_navigate_up)
-  autocmd FileType cs nmap <silent> <buffer> ]] <Plug>(omnisharp_navigate_down)
+ local on_attach = function(client, bufferNumber)
+    require('completion').on_attach(client)
+ end
 
-  " Find all code errors/warnings for the current solution and populate the quickfix window
-  autocmd FileType cs nmap <silent> <buffer> <Leader>osgcc <Plug>(omnisharp_global_code_check)
+ --local pid = vim.fn.getpid()
+ --local omnisharp_bin = "/home/aqez/omnisharp/run"
+ --nvim_lsp.omnisharp.setup({ cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) } })
+ nvim_lsp.rust_analyzer.setup({ on_attach = on_attach })
+ nvim_lsp.clangd.setup({ on_attach = on_attach })
+EOF
 
-  " Contextual code actions (uses fzf, CtrlP or unite.vim selector when available)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>osca <Plug>(omnisharp_code_actions)
-  autocmd FileType cs xmap <silent> <buffer> <Leader>osca <Plug>(omnisharp_code_actions)
-
-  " Repeat the last code action performed (does not use a selector)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>os. <Plug>(omnisharp_code_action_repeat)
-  autocmd FileType cs xmap <silent> <buffer> <Leader>os. <Plug>(omnisharp_code_action_repeat)
-
-  autocmd FileType cs nmap <silent> <buffer> <Leader>os= <Plug>(omnisharp_code_format)
-
-  autocmd FileType cs nmap <silent> <buffer> <Leader>osnm <Plug>(omnisharp_rename)
-
-  autocmd FileType cs nmap <silent> <buffer> <Leader>osre <Plug>(omnisharp_restart_server)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>osst <Plug>(omnisharp_start_server)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>ossp <Plug>(omnisharp_stop_server)
-augroup END
-
-nmap <C-p> :FZF<cr>
+nnoremap gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <Leader>fi <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <leader>cf <cmd>lua vim.lsp.buf.formatting()<CR>
+nnoremap <leader><space> <cmd>lua vim.lsp.buf.code_action()<CR>
+nnoremap <F2> <cmd>lua vim.lsp.buf.rename()<CR>
