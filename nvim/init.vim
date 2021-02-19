@@ -76,6 +76,8 @@ nnoremap <Leader>k <C-w>k
 nnoremap <Leader>l <C-w>l
 
 " Go specific bindings
+" See https://github.com/fatih/vim-go-tutorial
+" https://www.youtube.com/watch?v=7BqJ8dzygtU
 au filetype go nmap <leader>t :w<CR>:GoTestFunc<CR>
 au filetype go nmap <leader>T :w<CR>:GoTest<CR>
 au filetype go nmap <leader>r :w<CR>:GoRun<CR>
@@ -99,6 +101,8 @@ let g:go_highlight_extra_types = 1
 let g:go_highlight_operators = 1
 let g:go_fmt_autosave = 1
 let g:go_fmt_command = "goimports"
+let g:go_auto_type_info = 1
+let g:go_doc_popup_window = 1
 au filetype go inoremap <buffer> . .<C-x><C-o>
 
 " NerdTree
