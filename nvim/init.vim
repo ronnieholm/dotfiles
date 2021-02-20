@@ -2,7 +2,7 @@
 " https://www.youtube.com/watch?v=qGl_Mb2C87c
 
 " Plugins
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     Plug 'morhetz/gruvbox'
@@ -16,11 +16,13 @@ call plug#begin('~/.vim/plugged')
     Plug 'nvim-lua/completion-nvim'
     Plug 'w0rp/ale'
     Plug 'OmniSharp/omnisharp-vim'
+    Plug 'nickspoons/vim-sharpenup'
     Plug 'prabirshrestha/asyncomplete.vim'
     Plug 'fatih/vim-go', { 'tag': '*' }
     Plug 'tpope/vim-surround'
     Plug 'jiangmiao/auto-pairs'
     Plug 'tomtom/tcomment_vim'
+    Plug 'sirver/ultisnips'
 call plug#end()
 
 " UI
@@ -52,6 +54,10 @@ set tabstop=4
 set autoindent
 "set si
 set nowrap
+
+if has('termguicolors')
+  set termguicolors
+endif
 
 " General
 filetype plugin on
@@ -88,9 +94,19 @@ let g:strip_whitespace_confirm=0
 let g:strip_whitelines_at_eof=1
 
 " Omnisharp
+let g:OmniSharp_popup_position = 'peek'
 let g:OmniSharp_popup_options = {
-\ 'winblend': 30,
-\ 'winhl': 'Normal:Normal'
+\ 'winhl': 'Normal:NormalFloat'
+\}
+let g:OmniSharp_popup_mappings = {
+\ 'sigNext': '<C-n>',
+\ 'sigPrev': '<C-p>',
+\ 'pageDown': ['<C-f>', '<PageDown>'],
+\ 'pageUp': ['<C-b>', '<PageUp>']
+\}
+let g:OmniSharp_want_snippet = 0
+let g:OmniSharp_highlight_groups = {
+\ 'ExcludedCode': 'NonText'
 \}
 
 " vim-go
@@ -134,8 +150,27 @@ lua << EOF
  nvim_lsp.clangd.setup({ on_attach = on_attach })
 EOF
 
-nnoremap gd <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <Leader>fi <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <leader>cf <cmd>lua vim.lsp.buf.formatting()<CR>
-nnoremap <leader><space> <cmd>lua vim.lsp.buf.code_action()<CR>
-nnoremap <F2> <cmd>lua vim.lsp.buf.rename()<CR>
+"nnoremap gd <cmd>lua vim.lsp.buf.definition()<CR>
+"nnoremap <Leader>fi <cmd>lua vim.lsp.buf.implementation()<CR>
+"nnoremap <leader>cf <cmd>lua vim.lsp.buf.formatting()<CR>
+"nnoremap <leader><space> <cmd>lua vim.lsp.buf.code_action()<CR>
+"nnoremap <F2> <cmd>lua vim.lsp.buf.rename()<CR>
+
+" ALE
+let g:ale_sign_error = '•'
+let g:ale_sign_warning = '•'
+let g:ale_sign_info = '·'
+let g:ale_sign_style_error = '·'
+let g:ale_sign_style_warning = '·'
+let g:ale_linters = { 'cs': ['OmniSharp'] }
+
+" Asyncomplete
+let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_auto_completeopt = 0
+
+" Sharpenup
+" All sharpenup mappings will begin with `<Space>os`, e.g. `<Space>osgd` for
+" :OmniSharpGotoDefinition
+let g:sharpenup_map_prefix = '<Space>os'
+let g:sharpenup_statusline_opts = { 'Text': '%s (%p/%P)' }
+let g:sharpenup_statusline_opts.Highlight = 0
