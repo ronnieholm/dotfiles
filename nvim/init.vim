@@ -71,7 +71,7 @@ set nowritebackup
 set noswapfile
 set hidden
 
-" Customer key bindins
+" Custom key bindings
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 map <C-j> :cn<CR>
@@ -80,6 +80,9 @@ nnoremap <Leader>h <C-w>h
 nnoremap <Leader>j <C-w>j
 nnoremap <Leader>k <C-w>k
 nnoremap <Leader>l <C-w>l
+
+" auto-pairs
+let g:AutoPairsOnlyWhitespace = 1
 
 " Go specific bindings
 " See https://github.com/fatih/vim-go-tutorial
