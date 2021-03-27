@@ -56,8 +56,8 @@
 (setq org-clock-persist t)
 (org-clock-persistence-insinuate)
 
-(global-set-key (kbd "<f12>") (lambda() (interactive) (find-file "~/.emacs.d/init.el")))
 (global-set-key (kbd "<f11>") (lambda() (interactive) (find-file "~/Downloads/Life.md")))
+(global-set-key (kbd "<f12>") (lambda() (interactive) (find-file "~/.emacs.d/init.el")))
 
 ;; Dired
 (setq dired-listing-switches "-alh")
@@ -169,14 +169,15 @@
     (setq dashboard-banner-logo-title
           (format "%s" (sunrise-sunset()))))
 
-(use-package spaceline
-  :config
-  (require 'spaceline-config)
-    (setq spaceline-buffer-encoding-abbrev-p nil)
-    (setq spaceline-line-column-p t)
-    (setq spaceline-line-p nil)
-    (setq powerline-default-separator (quote arrow))
-    (spaceline-spacemacs-theme))
+;;(use-package
+sspaceline
+;  :config
+;  (require 'spaceline-config)
+;    (setq spaceline-buffer-encoding-abbrev-p nil)
+;    (setq spaceline-line-column-p t)
+;    (setq spaceline-line-p nil)
+;    (setq powerline-default-separator (quote arrow))
+;    (spaceline-spacemacs-theme))
 
 (use-package magit
   :config
