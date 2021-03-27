@@ -30,7 +30,7 @@
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-;; shortcut for typing in yes or no
+;; shortcut for typing yes or no
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; change font
@@ -59,21 +59,20 @@
 (global-set-key (kbd "<f11>") (lambda() (interactive) (find-file "~/Downloads/Life.md")))
 (global-set-key (kbd "<f12>") (lambda() (interactive) (find-file "~/.emacs.d/init.el")))
 
-;; Dired
+;; dired
 (setq dired-listing-switches "-alh")
 
 ;; resize windows
 ;; https://www.emacswiki.org/emacs/WindowResize
-;;(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-;;(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-;;(global-set-key (kbd "S-C-<down>") 'shrink-window)
-;;(global-set-key (kbd "S-C-<up>") 'enlarge-window)
-
-;; move cursor between windows
-;; https://www.emacswiki.org/emacs/WindMove
-;; The default S-arrow keybinding is incompatible with org-mode
-;;(when (fboundp 'windmove-default-keybindings)
-;;  (windmove-default-keybindings 'S))
+;(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+;(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+;(global-set-key (kbd "S-C-<down>") 'shrink-window)
+;(global-set-key (kbd "S-C-<up>") 'enlarge-window)
+; move cursor between windows
+; https://www.emacswiki.org/emacs/WindMove
+; The default S-arrow keybinding is incompatible with org-mode
+;(when (fboundp 'windmove-default-keybindings)
+;  (windmove-default-keybindings 'S))
 (global-set-key (kbd "C-c <left>")  'windmove-left)
 (global-set-key (kbd "C-c <right>") 'windmove-right)
 (global-set-key (kbd "C-c <up>")    'windmove-up)
@@ -106,7 +105,7 @@
 (use-package helpful)
 
 ;; default is c-x w <number> but that's a lot of typing
-;;(winum-set-keymap-prefix (kbd "½"))
+;(winum-set-keymap-prefix (kbd "½"))
 
 (setq winum-keymap
     (let ((map (make-sparse-keymap)))
@@ -118,7 +117,6 @@
 
 ;; alternative to windmove
 (use-package winum)
-
 (winum-mode)
 
 ;; Sacha Chua: Emacs microhabit - Switching windows
@@ -130,9 +128,9 @@
   :config (which-key-mode))
 
 ;; better minibuffer completions. Use of ido and helm are mutually exclusive.
-;;(ido-mode t)
-;;(setq ido-everywhere t)
-;;(setq ido-enable-flex-matching t)
+;(ido-mode t)
+;(setq ido-everywhere t)
+;(setq ido-enable-flex-matching t)
 
 (use-package helm
   :config (helm-mode 1))
@@ -224,6 +222,10 @@
   :config
   (setq neo-window-fixed-size nil))
 
+(use-package go-mode)
+
+(use-package rust-mode)
+
 (use-package csharp-mode)
 
 (add-hook 'csharp-mode-hook
@@ -241,14 +243,6 @@
              ;; edit lisp code on always valid AST
              ;;(paredit-mode)
              ))
-
-(use-package go-mode)
-
-(use-package rust-mode)
-
-(use-package lsp-mode
-;;  :hook (csharp-mode . lsp)  ;; omnisharp not working with Emacs
-  :commands lsp)
 
 ;; https://github.com/magnars/multiple-cursors.el
 (use-package multiple-cursors)
@@ -290,10 +284,10 @@
 
 (global-set-key (kbd "C-,") 'rh/duplicate-line)
 
-;(load-theme 'deeper-blue)
+(load-theme 'deeper-blue)
 
-(use-package dracula-theme
-  :config
-  (load-theme 'dracula t))
+;(use-package dracula-theme
+;  :config
+;  (load-theme 'dracula t))
 
 (sunrise-sunset)
