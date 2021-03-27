@@ -169,8 +169,7 @@
     (setq dashboard-banner-logo-title
           (format "%s" (sunrise-sunset()))))
 
-;;(use-package
-sspaceline
+;;(use-package spaceline
 ;  :config
 ;  (require 'spaceline-config)
 ;    (setq spaceline-buffer-encoding-abbrev-p nil)
