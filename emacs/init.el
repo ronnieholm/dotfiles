@@ -297,16 +297,3 @@
   (load-theme 'dracula t))
 
 (sunrise-sunset)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(ack winum which-key use-package try spaceline rust-mode paredit ox-twbs neotree multiple-cursors move-text markdown-toc magit helpful helm-projectile go-mode git-gutter fsharp-mode expand-region dracula-theme dashboard csharp-mode company-lsp ace-window)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
