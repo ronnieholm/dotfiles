@@ -137,6 +137,9 @@
 
 ;;(setq helm-split-window-in-side-p t
 ;;      helm-move-to-line-cycle-in-source t)
+(global-set-key (kbd "C-c c") 'compile)
+(global-set-key (kbd "C-c n") 'next-error)
+(global-set-key (kbd "C-c p") 'previous-error)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "M-c") 'helm-calcul-expression)
@@ -193,10 +196,6 @@
 
 (global-company-mode)
 
-(use-package company-lsp
-  :config
-  (push 'company-lsp company-backends)) 
-
 (use-package projectile
   :config
   (projectile-mode)
@@ -208,7 +207,7 @@
       '(".git" "node_modules" "__pycache__" ".vs"))
   (setq projectile-globally-ignored-files '("TAGS" "tags" ".DS_Store"))
   :bind-keymap
-  ("C-c p" . projectile-command-map)
+  ("C-c C-p" . projectile-command-map)
   :init
   (when (file-directory-p "~/git")
     (setq projectile-project-search-path '("~/git")))
@@ -231,7 +230,7 @@
 (add-hook 'csharp-mode-hook
 	      '(lambda()
 	         (electric-pair-mode)
-             (local-set-key (kbd "C-c b") 'recompile)
+             (local-set-key (kbd "C-c c") 'projectile-compile-project)
              (setq truncate-lines -1)))
 
 (use-package paredit)
