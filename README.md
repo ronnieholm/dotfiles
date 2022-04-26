@@ -1,8 +1,8 @@
 On Linux
 
     $ git clone https://github.com/ronnieholm/dotfiles.git
-    $ ln -s ~/git/dotfiles/emacs ~/.emacs.d
-    $ ln -s ~/git/dotfiles/nvim ~/.config/nvim
+    $ ln -s ~/git/dotfiles/emacs/ ~/.emacs.d
+    $ ln -s ~/git/dotfiles/nvim/ ~/.config/nvim
 
 On Windows
 
