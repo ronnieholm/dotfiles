@@ -244,3 +244,5 @@
 (load-theme 'deeper-blue)
 
 (sunrise-sunset)
+
+(use-package helm-rg)
