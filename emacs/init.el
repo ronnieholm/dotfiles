@@ -24,7 +24,7 @@
 
 ;; line numbering
 (global-display-line-numbers-mode)
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type 'absolute)
   (dolist (mode '(term-mode-hook
                 shell-mode-hook
                 eshell-mode-hook))
@@ -46,33 +46,12 @@
 (column-number-mode t)
 (size-indication-mode t)
 
-(setq org-hide-leading-stars t
-      org-add-levels-only t
-      org-add-levels-only t
-      org-clock-out-remove-zero-time-clocks t
-      org-clock-into-drawer t) ;; clock time in :LOGBOOK: drawer
-
-;; keep track of time across sessions
-(setq org-clock-persist t)
-(org-clock-persistence-insinuate)
-
 (global-set-key (kbd "<f11>") (lambda() (interactive) (find-file "~/Downloads/Life.md")))
 (global-set-key (kbd "<f12>") (lambda() (interactive) (find-file "~/.emacs.d/init.el")))
 
 ;; dired
 (setq dired-listing-switches "-alh")
 
-;; resize windows
-;; https://www.emacswiki.org/emacs/WindowResize
-;(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-;(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-;(global-set-key (kbd "S-C-<down>") 'shrink-window)
-;(global-set-key (kbd "S-C-<up>") 'enlarge-window)
-; move cursor between windows
-; https://www.emacswiki.org/emacs/WindMove
-; The default S-arrow keybinding is incompatible with org-mode
-;(when (fboundp 'windmove-default-keybindings)
-;  (windmove-default-keybindings 'S))
 (global-set-key (kbd "C-c <left>")  'windmove-left)
 (global-set-key (kbd "C-c <right>") 'windmove-right)
 (global-set-key (kbd "C-c <up>")    'windmove-up)
@@ -127,16 +106,9 @@
 (use-package which-key
   :config (which-key-mode))
 
-;; better minibuffer completions. Use of ido and helm are mutually exclusive.
-;(ido-mode t)
-;(setq ido-everywhere t)
-;(setq ido-enable-flex-matching t)
-
 (use-package helm
   :config (helm-mode 1))
 
-;;(setq helm-split-window-in-side-p t
-;;      helm-move-to-line-cycle-in-source t)
 (global-set-key (kbd "C-c c") 'compile)
 (global-set-key (kbd "C-c n") 'next-error)
 (global-set-key (kbd "C-c p") 'previous-error)
@@ -169,15 +141,6 @@
     (setq dashboard-items '((recents  . 10)))
     (setq dashboard-banner-logo-title
           (format "%s" (sunrise-sunset()))))
-
-;;(use-package spaceline
-;  :config
-;  (require 'spaceline-config)
-;    (setq spaceline-buffer-encoding-abbrev-p nil)
-;    (setq spaceline-line-column-p t)
-;    (setq spaceline-line-p nil)
-;    (setq powerline-default-separator (quote arrow))
-;    (spaceline-spacemacs-theme))
 
 (use-package magit
   :config
@@ -222,9 +185,7 @@
   (setq neo-window-fixed-size nil))
 
 (use-package go-mode)
-
 (use-package rust-mode)
-
 (use-package csharp-mode)
 
 (add-hook 'csharp-mode-hook
@@ -237,10 +198,7 @@
 
 (add-hook 'emacs-lisp-mode-hook
           '(lambda()
-             ;; show argument list and help for identifier under cursor
              (eldoc-mode 1)
-             ;; edit lisp code on always valid AST
-             ;;(paredit-mode)
              ))
 
 ;; https://github.com/magnars/multiple-cursors.el
@@ -284,9 +242,5 @@
 (global-set-key (kbd "C-,") 'rh/duplicate-line)
 
 (load-theme 'deeper-blue)
-
-;(use-package dracula-theme
-;  :config
-;  (load-theme 'dracula t))
 
 (sunrise-sunset)
