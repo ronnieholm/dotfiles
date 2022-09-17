@@ -151,6 +151,16 @@
   ("C-c m s" . magit-status)
   ("C-c m l" . magit-log))
 
+(setq ediff-split-window-function 'split-window-horizontally)
+(setq ediff-merge-split-window-function 'split-window-horizontally)
+
+;; avoid typing y to quit ediff session
+(defun disable-y-or-n-p (orig-fun &rest args)
+  (cl-letf (((symbol-function 'y-or-n-p) (lambda (prompt) t)))
+    (apply orig-fun args)))
+
+(advice-add 'ediff-quit :around #'disable-y-or-n-p)
+
 (use-package git-gutter)
 
 (use-package company
