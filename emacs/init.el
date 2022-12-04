@@ -197,7 +197,6 @@
 
 (use-package go-mode)
 (use-package rust-mode)
-(use-package csharp-mode)
 
 (add-hook 'csharp-mode-hook
 	      '(lambda()
