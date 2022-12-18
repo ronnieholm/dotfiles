@@ -10,6 +10,10 @@ Open `dotfiles/nvim/lua/rh/packer.lsp` in nvim, source the file by running the
 `:so` command. Then run the `:PackerSync` command a few times until errors are
 gone.
 
+For Emacs or nvim to pickup dotnet for language server, run
+
+    $ export DOTNET_ROOT="$(dirname $(which dotnet))"
+
 On Windows
 
     $ git clone https://github.com/ronnieholm/dotfiles.git
