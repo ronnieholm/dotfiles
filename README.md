@@ -3,6 +3,12 @@ On Linux
     $ git clone https://github.com/ronnieholm/dotfiles.git
     $ ln -s ~/git/dotfiles/emacs/ ~/.emacs.d
     $ ln -s ~/git/dotfiles/nvim/ ~/.config/nvim
+    $ git clone --depth 1 https://github.com/wbthomason/packer.nvim \
+      ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+
+Open `dotfiles/nvim/lua/rh/packer.lsp` in nvim, source the file by running the
+`:so` command. Then run the `:PackerSync` command a few times until errors are
+gone.
 
 On Windows
 
