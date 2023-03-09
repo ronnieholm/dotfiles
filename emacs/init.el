@@ -84,6 +84,8 @@
 
 (use-package helpful)
 
+(use-package evil)
+
 ;; default is c-x w <number> but that's a lot of typing
 ;(winum-set-keymap-prefix (kbd "½"))
 
@@ -165,8 +167,8 @@
 
 (use-package company
   :config
-  (setq company-idle-delay 1)
-  (setq company-minimum-prefix-length 3))
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 1))
 
 (global-company-mode)
 
@@ -196,7 +198,13 @@
   (setq neo-window-fixed-size nil))
 
 (use-package go-mode)
+(add-hook 'go-mode-hook
+          '(lambda()
+             (add-hook 'before-save-hook #'lsp-format-buffer t t)
+             (add-hook 'before-save-hook #'lsp-organize-imports t t)))
+
 (use-package rust-mode)
+(use-package fsharp-mode)
 
 (add-hook 'csharp-mode-hook
 	      '(lambda()
@@ -210,6 +218,8 @@
   (setq lsp-keymap-prefix "C-c l")
   :hook (
          (csharp-mode . lsp)
+         (fsharp-mode . lsp)
+         (go-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 
