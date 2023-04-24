@@ -17,6 +17,8 @@
 (setq-default tab-width 4)
 (setq-default compilation-scroll-output t)
 (setq gc-cons-threshold (* 50 1024 1024)) ;; in bytes. Default is 800 KB
+(setq compilation-ask-about-save nil) ;; save all modified buffer without asking
+(setq compile-command "dotnet build")
 
 ;; don't show the toolbar and scrollbar
 (tool-bar-mode -1)
@@ -29,6 +31,13 @@
                 shell-mode-hook
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+;; (add-hook 'before-save-hook
+;;           '(lambda()
+;;              ;; Go mode registers hook for lsp-format-buffer which also removes
+;;              ;; trailing whitespace. We should avoid double work here.
+;;              (when (derived-mode-p 'prog-mode)
+;;                (delete-trailing-whitespace))))
 
 ;; shortcut for typing yes or no
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -57,13 +66,14 @@
 (global-set-key (kbd "C-c <right>") 'windmove-right)
 (global-set-key (kbd "C-c <up>")    'windmove-up)
 (global-set-key (kbd "C-c <down>")  'windmove-down)
+(global-set-key (kbd "C-,") 'duplicate-line)
 
 ;; add paths recursively
 (let ((default-directory "~/.emacs.d/site-lisp/"))
   (setq load-path
     (append
          (let ((load-path (copy-sequence load-path)))
-           (append 
+           (append
             (copy-sequence (normal-top-level-add-to-load-path '(".")))
             (normal-top-level-add-subdirs-to-load-path)))
          load-path)))
@@ -91,10 +101,10 @@
 
 (setq winum-keymap
     (let ((map (make-sparse-keymap)))
-      (define-key map (kbd "<f5>") 'winum-select-window-1)
-      (define-key map (kbd "<f6>") 'winum-select-window-2)
-      (define-key map (kbd "<f7>") 'winum-select-window-3)
-      (define-key map (kbd "<f8>") 'winum-select-window-4)
+      (define-key map (kbd "S-<f5>") 'winum-select-window-1)
+      (define-key map (kbd "S-<f6>") 'winum-select-window-2)
+      (define-key map (kbd "S-<f7>") 'winum-select-window-3)
+      (define-key map (kbd "S-<f8>") 'winum-select-window-4)
       map))
 
 ;; alternative to windmove
@@ -112,9 +122,10 @@
 (use-package helm
   :config (helm-mode 1))
 
-(global-set-key (kbd "C-c c") 'compile)
-(global-set-key (kbd "C-c n") 'next-error)
-(global-set-key (kbd "C-c p") 'previous-error)
+(global-set-key (kbd "<f5>") 'compile)
+(global-set-key (kbd "<f6>") 'recompile)
+(global-set-key (kbd "<f7>") 'next-error)
+(global-set-key (kbd "<f8>") 'previous-error)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "M-c") 'helm-calcul-expression)
@@ -265,23 +276,14 @@
 ;; https://github.com/abo-abo/avy
 (use-package avy)
 
+(use-package git-gutter)
+(global-git-gutter-mode 1)
+
 (global-set-key (kbd "C-;") 'avy-goto-char)
 (global-set-key (kbd "C-:") 'avy-goto-char-2)
-
-(defun rh/duplicate-line ()
-  "Duplicate current line"
-  (interactive)
-  (move-beginning-of-line 1)
-  (kill-line)
-  (yank)
-  (newline)
-  (yank))
-
-(global-set-key (kbd "C-,") 'rh/duplicate-line)
 
 (load-theme 'deeper-blue)
 
 (sunrise-sunset)
 
 (use-package helm-rg)
-
