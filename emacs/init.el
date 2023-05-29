@@ -295,9 +295,9 @@
   :no-require t
   :config
   (setq ispell-dictionary "en_US")
-  (setq ispell-highlight-face ('flyspell-in correct))
-  (setq ispell-silently-savep t)
-
+  (setq ispell-highlight-face (quote flyspell-incorrect))
+  (setq ispell-silently-savep t))
+  
 (use-package flyspell
   :defer t
   :init
@@ -306,3 +306,4 @@
     (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
     (add-hook 'text-mode-hook 'flyspell-mode)
     (add-hook 'markdown-mode-hook 'flyspell-mode)))
+
