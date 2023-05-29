@@ -124,8 +124,8 @@
 
 (global-set-key (kbd "<f5>") 'compile)
 (global-set-key (kbd "<f6>") 'recompile)
-(global-set-key (kbd "<f7>") 'next-error)
-(global-set-key (kbd "<f8>") 'previous-error)
+(global-set-key (kbd "<f7>") 'previous-error)
+(global-set-key (kbd "<f8>") 'next-error)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "M-c") 'helm-calcul-expression)
@@ -216,6 +216,9 @@
 
 (use-package rust-mode)
 (use-package fsharp-mode)
+(add-hook 'fsharp-mode-hook
+          '(lambda()
+             (add-hook 'before-save-hook #'lsp-format-buffer t t)))
 
 (add-hook 'csharp-mode-hook
 	      '(lambda()
@@ -287,3 +290,18 @@
 (sunrise-sunset)
 
 (use-package helm-rg)
+
+(use-package ispell
+  :no-require t
+  :config
+  (setq ispell-dictionary "en_US")
+  (setq ispell-highlight-face (quote flyspell-in correct))
+  (setq ispell-silently-savep t)
+  
+(use-package flyspell
+     :defer t
+     :init
+     (progn
+       (add-hook 'message-mode-hook 'turn-on-flyspell)
+       (add-hook 'text-mode-hook 'flyspell-mode)
+       (add-hook 'markdown-mode-hook 'flyspell-mode)))
