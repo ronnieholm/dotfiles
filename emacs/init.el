@@ -297,12 +297,12 @@
   (setq ispell-dictionary "en_US")
   (setq ispell-highlight-face ('flyspell-in correct))
   (setq ispell-silently-savep t)
-  
+
 (use-package flyspell
-     :defer t
-     :init
-     (progn
-       (add-hook 'message-mode-hook 'turn-on-flyspell)
-       (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
-       (add-hook 'text-mode-hook 'flyspell-mode)
-       (add-hook 'markdown-mode-hook 'flyspell-mode)))
+  :defer t
+  :init
+  (progn
+    (add-hook 'message-mode-hook 'turn-on-flyspell)
+    (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
+    (add-hook 'text-mode-hook 'flyspell-mode)
+    (add-hook 'markdown-mode-hook 'flyspell-mode)))
