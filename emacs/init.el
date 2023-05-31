@@ -178,7 +178,7 @@
 
 (use-package company
   :config
-  (setq company-idle-delay 0)
+  (setq company-idle-delay 1)
   (setq company-minimum-prefix-length 1))
 
 (global-company-mode)
@@ -189,12 +189,11 @@
   (setq projectile-enable-caching t)
   (setq projectile-indexing-method 'alien)
   (setq projectile-globally-ignored-file-suffixes
-      '("#" "~" ".swp" ".o" ".so" ".exe" ".dll" ".elc" ".pyc" ".jar"))
+        '("#" "~" ".swp" ".o" ".so" ".exe" ".dll" ".elc" ".pyc" ".jar"))
   (setq projectile-globally-ignored-directories
-      '(".git" "node_modules" "__pycache__" ".vs"))
+        '(".git" "node_modules" "__pycache__" ".vs"))
   (setq projectile-globally-ignored-files '("TAGS" "tags" ".DS_Store"))
-  :bind-keymap
-  ("C-c C-p" . projectile-command-map)
+  :bind-keymap ("C-c C-p" . projectile-command-map)
   :init
   (when (file-directory-p "~/git")
     (setq projectile-project-search-path '("~/git")))
@@ -215,6 +214,7 @@
              (add-hook 'before-save-hook #'lsp-organize-imports t t)))
 
 (use-package rust-mode)
+
 (use-package fsharp-mode)
 (add-hook 'fsharp-mode-hook
           '(lambda()
@@ -287,8 +287,6 @@
 
 (load-theme 'deeper-blue)
 
-(sunrise-sunset)
-
 (use-package helm-rg)
 
 (use-package ispell
@@ -307,3 +305,4 @@
     (add-hook 'text-mode-hook 'flyspell-mode)
     (add-hook 'markdown-mode-hook 'flyspell-mode)))
 
+(use-package flycheck-posframe)
