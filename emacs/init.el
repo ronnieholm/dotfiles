@@ -24,6 +24,9 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
+(when (not (display-graphic-p))
+  (menu-bar-mode -1))
+
 ;; line numbering
 (global-display-line-numbers-mode)
 (setq display-line-numbers-type 'absolute)
@@ -230,6 +233,9 @@
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
+  ;; https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off
+  (setq lsp-lens-enable nil)
+  (setq lsp-ui-sideline-enable t)
   :hook (
          (csharp-mode . lsp)
          (fsharp-mode . lsp)
@@ -285,7 +291,7 @@
 (global-set-key (kbd "C-;") 'avy-goto-char)
 (global-set-key (kbd "C-:") 'avy-goto-char-2)
 
-(load-theme 'deeper-blue)
+(load-theme 'wombat)
 
 (use-package helm-rg)
 
@@ -304,5 +310,3 @@
     (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
     (add-hook 'text-mode-hook 'flyspell-mode)
     (add-hook 'markdown-mode-hook 'flyspell-mode)))
-
-(use-package flycheck-posframe)
