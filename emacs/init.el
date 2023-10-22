@@ -58,8 +58,10 @@
 (column-number-mode t)
 (size-indication-mode t)
 
-(global-set-key (kbd "<f11>") (lambda() (interactive) (find-file "~/Downloads/Life.md")))
+(global-set-key (kbd "<f11>") (lambda() (interactive) (find-file "~/Downloads/TODO.md")))
 (global-set-key (kbd "<f12>") (lambda() (interactive) (find-file "~/.emacs.d/init.el")))
+(global-set-key (kbd "C-x 2") (lambda() (interactive) (select-window (split-window-below))))
+(global-set-key (kbd "C-x 3") (lambda() (interactive) (select-window (split-window-right))))
 
 ;; dired
 (setq dired-listing-switches "-alh")
