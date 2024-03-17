@@ -177,7 +177,7 @@
          ("M-s G" . consult-git-grep)
          ("M-s r" . consult-ripgrep)
          ("C-s" . consult-line)                    ;; orig. isearch-forward
-         ("C-S-s" . consult-line-multi)            ;; orig. isearch-forward
+         ("C-S-s" . consult-ripgrep)               ;; orig. isearch-forward
          ("M-s k" . consult-keep-lines)
          ("M-s u" . consult-focus-lines)
          ;; Isearch integration
