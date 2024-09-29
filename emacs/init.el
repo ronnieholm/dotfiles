@@ -19,6 +19,7 @@
 (setq gc-cons-threshold (* 50 1024 1024)) ;; in bytes. Default is 800 KB
 (setq compilation-ask-about-save nil) ;; save all modified buffer without asking
 (setq compile-command "dotnet build")
+(setq custom-file "~/.emacs.d/customizations")
 
 ;; don't show the toolbar and scrollbar
 (tool-bar-mode -1)
@@ -348,8 +349,9 @@
 ;; optionally
 (use-package lsp-ui :commands lsp-ui-mode)
 (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
-(use-package dap-mode)
 
+;; https://www.youtube.com/watch?v=0bilcQVSlbM
+(use-package dap-mode)
 (require 'dap-netcore)
 
 (use-package paredit)
