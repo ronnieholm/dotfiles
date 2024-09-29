@@ -410,3 +410,6 @@
     (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
     (add-hook 'text-mode-hook 'flyspell-mode)
     (add-hook 'markdown-mode-hook 'flyspell-mode)))
+
+;; only load if exists?
+;;(load-file custom-file)
