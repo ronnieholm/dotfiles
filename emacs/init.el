@@ -19,7 +19,7 @@
 (setq gc-cons-threshold (* 50 1024 1024)) ;; in bytes. Default is 800 KB
 (setq compilation-ask-about-save nil) ;; save all modified buffer without asking
 (setq compile-command "dotnet build")
-(setq custom-file "~/.emacs.d/customizations")
+(setq custom-file "~/.emacs.d/customizations.el")
 
 ;; don't show the toolbar and scrollbar
 (tool-bar-mode -1)
