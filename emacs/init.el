@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (setq user-full-name "Ronnie Holm")
 (setq user-mail-address "mail@bugfree.dk")
 (setq calendar-latitude 55.58556)
