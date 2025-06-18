@@ -33,10 +33,10 @@
 ;; line numbering
 (global-display-line-numbers-mode)
 (setq display-line-numbers-type 'absolute)
-  (dolist (mode '(term-mode-hook
+(dolist (mode '(term-mode-hook
                 shell-mode-hook
                 eshell-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+(add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; shortcut for typing yes or no
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -54,7 +54,6 @@
 (column-number-mode t)
 (size-indication-mode t)
 
-(global-set-key (kbd "<f11>") (lambda() (interactive) (find-file "~/Downloads/TODO.md")))
 (global-set-key (kbd "<f12>") (lambda() (interactive) (find-file "~/.emacs.d/init.el")))
 (global-set-key (kbd "C-x 2") (lambda() (interactive) (select-window (split-window-below))))
 (global-set-key (kbd "C-x 3") (lambda() (interactive) (select-window (split-window-right))))
@@ -360,8 +359,7 @@
 
 (add-hook 'emacs-lisp-mode-hook
           '(lambda()
-             (eldoc-mode 1)
-             ))
+             (eldoc-mode 1)))
 
 ;; https://github.com/magnars/multiple-cursors.el
 (use-package multiple-cursors)
