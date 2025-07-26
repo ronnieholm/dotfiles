@@ -36,7 +36,7 @@
 (dolist (mode '(term-mode-hook
                 shell-mode-hook
                 eshell-mode-hook))
-(add-hook mode (lambda () (display-line-numbers-mode 0))))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; shortcut for typing yes or no
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -332,6 +332,10 @@
 	      '(lambda()
 	         (electric-pair-mode)
              (setq truncate-lines -1)))
+
+(setq inferior-lisp-program "~/Downloads/software/sbcl-2.5.6-x86-64-linux/run-sbcl.sh")
+(setq sly-net-coding-system 'utf-8-unix)
+(use-package sly)
 
 (use-package lsp-mode
   :init
