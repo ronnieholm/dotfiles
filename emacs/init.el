@@ -95,6 +95,8 @@
 (use-package helpful)
 
 (use-package sly)
+(setq inferior-lisp-program "~/Downloads/software/sbcl-2.5.6-x86-64-linux/run-sbcl.sh")
+(setq sly-net-coding-system 'utf-8-unix)
 
 (use-package evil
   :config
@@ -346,9 +348,6 @@
 	      '(lambda()
 	         (electric-pair-mode)
              (setq truncate-lines -1)))
-
-(setq inferior-lisp-program "~/Downloads/software/sbcl-2.5.6-x86-64-linux/run-sbcl.sh")
-(setq sly-net-coding-system 'utf-8-unix)
 
 (use-package lsp-mode
   :init
