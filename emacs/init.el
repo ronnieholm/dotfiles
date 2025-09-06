@@ -94,7 +94,21 @@
 
 (use-package helpful)
 
-(use-package evil)
+(use-package sly)
+
+(use-package evil
+  :config
+  ;;; bind numeric keys in Normal mode for SLY error buffer restarts or nothing happens.
+  (evil-define-key 'normal sly-db-mode-map (kbd "0") (lambda () (sly-db-invoke-restart-0)))
+  (evil-define-key 'normal sly-db-mode-map (kbd "1") (lambda () (sly-db-invoke-restart-1)))
+  (evil-define-key 'normal sly-db-mode-map (kbd "2") (lambda () (sly-db-invoke-restart-2)))
+  (evil-define-key 'normal sly-db-mode-map (kbd "3") (lambda () (sly-db-invoke-restart-3)))
+  (evil-define-key 'normal sly-db-mode-map (kbd "4") (lambda () (sly-db-invoke-restart-4)))
+  (evil-define-key 'normal sly-db-mode-map (kbd "5") (lambda () (sly-db-invoke-restart-5)))
+  (evil-define-key 'normal sly-db-mode-map (kbd "6") (lambda () (sly-db-invoke-restart-6)))
+  (evil-define-key 'normal sly-db-mode-map (kbd "7") (lambda () (sly-db-invoke-restart-7)))
+  (evil-define-key 'normal sly-db-mode-map (kbd "8") (lambda () (sly-db-invoke-restart-8)))
+  (evil-define-key 'normal sly-db-mode-map (kbd "9") (lambda () (sly-db-invoke-restart-9))))
 
 ;; default is c-x w <number> but that's a lot of typing
 ;(winum-set-keymap-prefix (kbd "½"))
@@ -335,7 +349,6 @@
 
 (setq inferior-lisp-program "~/Downloads/software/sbcl-2.5.6-x86-64-linux/run-sbcl.sh")
 (setq sly-net-coding-system 'utf-8-unix)
-(use-package sly)
 
 (use-package lsp-mode
   :init
