@@ -15,7 +15,7 @@
       backup-inhibited t
       delete-by-moving-to-trash t
       gc-cons-threshold (* 50 1024 1024) ;; in bytes. Default is 800 KB
-      compilation-ask-about-save nil ;; save all modified buffer without askin
+      compilation-ask-about-save nil ;; save all modified buffer without askinlife/
       compile-command "dotnet build"
       ediff-split-window-function 'split-window-horizontally
       ediff-merge-split-window-function 'split-window-horizontally
@@ -23,6 +23,7 @@
       confirm-kill-processes nil
       require-final-newline t
       warning-minimum-level :error
+      use-short-answers t
       custom-file (locate-user-emacs-file "custom.el"))
 
 (load custom-file 'noerror)
@@ -46,9 +47,6 @@
                 shell-mode-hook
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
-
-;; shortcut for typing yes or no
-(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; change font
 (defun rh/get-default-font ()
@@ -90,8 +88,10 @@
     (normal-top-level-add-to-load-path '("."))
     (normal-top-level-add-subdirs-to-load-path)))
 
-(setq package-archives
-      '(("melpa" . "https://melpa.org/packages/")))
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -118,10 +118,12 @@
         evil-symbol-word-search t
         evil-kill-on-visual-paste nil)  
   :config
-  (evil-set-initial-state 'prog-mode 'normal)
-  (evil-set-initial-state 'text-mode 'normal)
-  (evil-set-initial-state 'conf-mode 'normal)
-  (evil-set-initial-state 'fundamental-mode 'normal)
+  (dolist (mode '(prog-mode
+                  text-mode
+                  conf-mode
+                  fundamental-mode
+                  emacs-lisp-mode))
+    (evil-set-initial-state mode 'normal))
   (evil-set-initial-state 'git-commit-mode 'emacs)
   (defalias #'forward-evil-word #'forward-evil-symbol))
 
