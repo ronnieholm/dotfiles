@@ -15,7 +15,7 @@
       backup-inhibited t
       delete-by-moving-to-trash t
       gc-cons-threshold (* 50 1024 1024) ;; in bytes. Default is 800 KB
-      compilation-ask-about-save nil ;; save all modified buffer without askinlife/
+      compilation-ask-about-save nil ;; save all modified buffer without asking
       compile-command "dotnet build"
       ediff-split-window-function 'split-window-horizontally
       ediff-merge-split-window-function 'split-window-horizontally
@@ -123,7 +123,7 @@
                   conf-mode
                   fundamental-mode
                   emacs-lisp-mode))
-    (evil-set-initial-state mode 'normal))
+    (evil-set-initial-state mode 'normal))    
   (evil-set-initial-state 'git-commit-mode 'emacs)
   (defalias #'forward-evil-word #'forward-evil-symbol))
 
