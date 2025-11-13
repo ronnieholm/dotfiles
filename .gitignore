@@ -1,2 +1,8 @@
 /emacs/.dap-breakpoints
 /emacs/tramp
+/emacs/elpa
+/emacs/eln-cache
+/emacs/games
+custom.el
+history
+.mc-lists.el

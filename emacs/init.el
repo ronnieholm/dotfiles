@@ -1,33 +1,42 @@
 ;; -*- lexical-binding: t; -*-
 
-(setq user-full-name "Ronnie Holm")
-(setq user-mail-address "mail@bugfree.dk")
-(setq calendar-latitude 55.58556)
-(setq calendar-longitude 12.13139)
-(setq calendar-location-name "Roskilde")
-(setq inhibit-startup-message t)
-(setq inhibit-startup-echo-area-message t)
-(setq scroll-margin 1)
-(setq scroll-conservatively 100000)
-(setq scroll-up-aggressively 0.01)
-(setq scroll-down-aggressively 0.01)
-(setq ring-bell-function 'ignore)
-(setq backup-inhibited t)
-(setq delete-by-moving-to-trash t)
-(setq-default fill-column 80)
-(setq-default indent-tabs-mode nil) ;; spaces over tabs
-(setq-default tab-width 4)
-(setq-default compilation-scroll-output t)
-(setq gc-cons-threshold (* 50 1024 1024)) ;; in bytes. Default is 800 KB
-(setq compilation-ask-about-save nil) ;; save all modified buffer without asking
-(setq compile-command "dotnet build")
-(setq custom-file "~/.emacs.d/customizations.el")
+(setq user-full-name "Ronnie Holm"
+      user-mail-address "mail@bugfree.dk"
+      calendar-latitude 55.58556
+      calendar-longitude 12.13139
+      calendar-location-name "Roskilde"
+      inhibit-startup-message t
+      inhibit-startup-echo-area-message t
+      scroll-margin 1
+      scroll-conservatively 100000
+      scroll-up-aggressively 0.01
+      scroll-down-aggressively 0.01
+      ring-bell-function 'ignore
+      backup-inhibited t
+      delete-by-moving-to-trash t
+      gc-cons-threshold (* 50 1024 1024) ;; in bytes. Default is 800 KB
+      compilation-ask-about-save nil ;; save all modified buffer without askin
+      compile-command "dotnet build"
+      ediff-split-window-function 'split-window-horizontally
+      ediff-merge-split-window-function 'split-window-horizontally
+      use-dialog-box nil
+      confirm-kill-processes nil
+      require-final-newline t
+      warning-minimum-level :error
+      custom-file (locate-user-emacs-file "custom.el"))
+
+(load custom-file 'noerror)
+
+(setq-default fill-column 80
+              indent-tabs-mode nil ;; spaces over tabs
+              tab-width 4
+              compilation-scroll-output t) 
 
 ;; don't show the toolbar and scrollbar
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-(when (not (display-graphic-p))
+(unless (display-graphic-p)
   (menu-bar-mode -1))
 
 ;; line numbering
@@ -39,7 +48,7 @@
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; shortcut for typing yes or no
-(fset 'yes-or-no-p 'y-or-n-p)
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; change font
 (defun rh/get-default-font ()
@@ -47,85 +56,82 @@
    ((eq system-type 'windows-nt) "Consolas-10")
    ((eq system-type 'gnu/linux) "DejaVu Sans Mono-10")))
 
-(add-to-list 'default-frame-alist `(font . ,(rh/get-default-font)))
+(setq default-frame-alist
+      `((font . ,(rh/get-default-font))
+        (width . 120)
+        (height . 60)))
 
 (global-font-lock-mode t)
 (blink-cursor-mode 0)
 (column-number-mode t)
 (size-indication-mode t)
 
-(global-set-key (kbd "<f12>") (lambda() (interactive) (find-file "~/.emacs.d/init.el")))
+(global-set-key (kbd "<f12>") (lambda() (interactive) (find-file user-init-file)))
 (global-set-key (kbd "C-x 2") (lambda() (interactive) (select-window (split-window-below))))
 (global-set-key (kbd "C-x 3") (lambda() (interactive) (select-window (split-window-right))))
+(global-set-key (kbd "C-c <left>") 'windmove-left)
+(global-set-key (kbd "C-c <right>") 'windmove-right)
+(global-set-key (kbd "C-c <up>") 'windmove-up)
+(global-set-key (kbd "C-c <down>") 'windmove-down)
+(global-set-key (kbd "C-,") 'duplicate-line)
+(global-set-key (kbd "<f5>") 'compile)
+(global-set-key (kbd "<f6>") 'recompile)
+(global-set-key (kbd "<f7>") 'previous-error)
+(global-set-key (kbd "<f8>") 'next-error)
 
 ;; dired
 (setq dired-listing-switches "-alh")
 (setf dired-kill-when-opening-new-dired-buffer t)
 
-(global-set-key (kbd "C-c <left>")  'windmove-left)
-(global-set-key (kbd "C-c <right>") 'windmove-right)
-(global-set-key (kbd "C-c <up>")    'windmove-up)
-(global-set-key (kbd "C-c <down>")  'windmove-down)
-(global-set-key (kbd "C-,") 'duplicate-line)
-
 ;; add paths recursively
 (let ((default-directory "~/.emacs.d/site-lisp/"))
-  (setq load-path
-    (append
-         (let ((load-path (copy-sequence load-path)))
-           (append
-            (copy-sequence (normal-top-level-add-to-load-path '(".")))
-            (normal-top-level-add-subdirs-to-load-path)))
-         load-path)))
+  (progn
+    (add-to-list 'load-path default-directory)
+    (normal-top-level-add-to-load-path '("."))
+    (normal-top-level-add-subdirs-to-load-path)))
 
-(package-initialize)
-(require 'package)
-(setq package-enable-at-startup nil)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(setq package-archives
+      '(("melpa" . "https://melpa.org/packages/")))
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 
-(require 'use-package)
 (setq use-package-always-ensure t)
 
-(use-package try)
+(use-package minions
+  :config (minions-mode t))
 
+(use-package try)
 (use-package helpful)
 
-(use-package sly)
-(setq inferior-lisp-program "~/Downloads/software/sbcl-2.5.6-x86-64-linux/run-sbcl.sh")
-(setq sly-net-coding-system 'utf-8-unix)
-
 (use-package evil
+  :init
+  (setq evil-default-state 'emacs
+        evil-want-C-w-in-emacs-state t
+        evil-want-C-w-delete nil
+        evil-want-Y-yank-to-eol t
+        evil-want-C-u-scroll t
+        evil-vsplit-window-right t
+        evil-split-window-below t
+        evil-undo-system 'undo-redo
+        evil-symbol-word-search t
+        evil-kill-on-visual-paste nil)  
   :config
-  ;;; bind numeric keys in Normal mode for SLY error buffer restarts or nothing happens.
-  (evil-define-key 'normal sly-db-mode-map (kbd "0") (lambda () (sly-db-invoke-restart-0)))
-  (evil-define-key 'normal sly-db-mode-map (kbd "1") (lambda () (sly-db-invoke-restart-1)))
-  (evil-define-key 'normal sly-db-mode-map (kbd "2") (lambda () (sly-db-invoke-restart-2)))
-  (evil-define-key 'normal sly-db-mode-map (kbd "3") (lambda () (sly-db-invoke-restart-3)))
-  (evil-define-key 'normal sly-db-mode-map (kbd "4") (lambda () (sly-db-invoke-restart-4)))
-  (evil-define-key 'normal sly-db-mode-map (kbd "5") (lambda () (sly-db-invoke-restart-5)))
-  (evil-define-key 'normal sly-db-mode-map (kbd "6") (lambda () (sly-db-invoke-restart-6)))
-  (evil-define-key 'normal sly-db-mode-map (kbd "7") (lambda () (sly-db-invoke-restart-7)))
-  (evil-define-key 'normal sly-db-mode-map (kbd "8") (lambda () (sly-db-invoke-restart-8)))
-  (evil-define-key 'normal sly-db-mode-map (kbd "9") (lambda () (sly-db-invoke-restart-9))))
+  (evil-set-initial-state 'prog-mode 'normal)
+  (evil-set-initial-state 'text-mode 'normal)
+  (evil-set-initial-state 'conf-mode 'normal)
+  (evil-set-initial-state 'fundamental-mode 'normal)
+  (evil-set-initial-state 'git-commit-mode 'emacs)
+  (defalias #'forward-evil-word #'forward-evil-symbol))
 
-;; default is c-x w <number> but that's a lot of typing
-;(winum-set-keymap-prefix (kbd "½"))
+(use-package evil-surround
+  :after evil
+  :config (global-evil-surround-mode t))
 
-(setq winum-keymap
-    (let ((map (make-sparse-keymap)))
-      (define-key map (kbd "S-<f5>") 'winum-select-window-1)
-      (define-key map (kbd "S-<f6>") 'winum-select-window-2)
-      (define-key map (kbd "S-<f7>") 'winum-select-window-3)
-      (define-key map (kbd "S-<f8>") 'winum-select-window-4)
-      map))
-
-;; alternative to windmove
-(use-package winum)
-(winum-mode)
+(use-package evil-exchange
+  :after evil
+  :config (evil-exchange-install))
 
 ;; Sacha Chua: Emacs microhabit - Switching windows
 ;; https://www.youtube.com/watch?v=nKCKuRuvAOw
@@ -136,136 +142,105 @@
   :config (which-key-mode))
 
 (use-package vertico
-  :ensure t
-  :custom
-  (vertico-cycle t)
-  :init
-  (vertico-mode))
+  :init (vertico-mode)
+  :custom (vertico-cycle t))
 
 (use-package savehist
-  :init
-  (savehist-mode))
+  :init (savehist-mode))
 
 (use-package marginalia
-  :ensure t
   :after vertico
+  :init (marginalia-mode)
   :custom
-  (marginalia-annotators '(marginalia-annontations-heavy marginalia-annotations-light nil))
-  :init
-  (marginalia-mode))
+  (marginalia-annotators '(marginalia-annontations-heavy
+                           marginalia-annotations-light
+                           nil)))
 
-;; Example configuration for Consult
+(use-package editorconfig
+  :config (editorconfig-mode t))
+
 (use-package consult
-  ;; Replace bindings. Lazily loaded due by `use-package'.
-  :bind (;; C-c bindings in `mode-specific-map'
-         ("C-c M-x" . consult-mode-command)
-         ("C-c h" . consult-history)
-         ("C-c k" . consult-kmacro)
-         ("C-c m" . consult-man)
-         ("C-c i" . consult-info)
-         ([remap Info-search] . consult-info)
-         ;; C-x bindings in `ctl-x-map'
-         ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
-         ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
-         ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-         ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-         ("C-x t b" . consult-buffer-other-tab)    ;; orig. switch-to-buffer-other-tab
-         ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
-         ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
-         ;; Custom M-# bindings for fast register access
-         ("M-#" . consult-register-load)
-         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
-         ("C-M-#" . consult-register)
-         ;; Other custom bindings
-         ("M-y" . consult-yank-pop)                ;; orig. yank-pop
-         ;; M-g bindings in `goto-map'
-         ("M-g e" . consult-compile-error)
-         ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
-         ("M-g g" . consult-goto-line)             ;; orig. goto-line
-         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
-         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
-         ("M-g m" . consult-mark)
-         ("M-g k" . consult-global-mark)
-         ("M-g i" . consult-imenu)
-         ("M-g I" . consult-imenu-multi)
-         ;; M-s bindings in `search-map'
-         ("M-s d" . consult-find)                  ;; Alternative: consult-fd
-         ("M-s c" . consult-locate)
-         ("M-s g" . consult-grep)
-         ("M-s G" . consult-git-grep)
-         ("M-s r" . consult-ripgrep)
-         ("C-s" . consult-line)                    ;; orig. isearch-forward
-         ("C-S-s" . consult-ripgrep)               ;; orig. isearch-forward
-         ("M-s k" . consult-keep-lines)
-         ("M-s u" . consult-focus-lines)
-         ;; Isearch integration
-         ("M-s e" . consult-isearch-history)
-         :map isearch-mode-map
-         ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
-         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
-         ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
-         ;; Minibuffer history
-         :map minibuffer-local-map
-         ("M-s" . consult-history)                 ;; orig. next-matching-history-element
-         ("M-r" . consult-history))                ;; orig. previous-matching-history-element
-
+  :bind
+  (;; C-c bindings in `mode-specific-map'
+   ("C-c M-x" . consult-mode-command)
+   ("C-c h" . consult-history)
+   ("C-c k" . consult-kmacro)
+   ("C-c m" . consult-man)
+   ("C-c i" . consult-info)
+   ([remap Info-search] . consult-info)
+   ;; C-x bindings in `ctl-x-map'
+   ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+   ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+   ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+   ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+   ("C-x t b" . consult-buffer-other-tab)    ;; orig. switch-to-buffer-other-tab
+   ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
+   ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
+   ;; Custom M-# bindings for fast register access
+   ("M-#" . consult-register-load)
+   ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+   ("C-M-#" . consult-register)
+   ;; Other custom bindings
+   ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+   ;; M-g bindings in `goto-map'
+   ("M-g e" . consult-compile-error)
+   ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
+   ("M-g g" . consult-goto-line)             ;; orig. goto-line
+   ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+   ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+   ("M-g m" . consult-mark)
+   ("M-g k" . consult-global-mark)
+   ("M-g i" . consult-imenu)
+   ("M-g I" . consult-imenu-multi)
+   ;; M-s bindings in `search-map'
+   ("M-s d" . consult-find)                  ;; Alternative: consult-fd
+   ("M-s c" . consult-locate)
+   ("M-s g" . consult-grep)
+   ("M-s G" . consult-git-grep)
+   ("M-s r" . consult-ripgrep)
+   ("C-s" . consult-line)                    ;; orig. isearch-forward
+   ("C-S-s" . consult-ripgrep)               ;; orig. isearch-forward
+   ("M-s k" . consult-keep-lines)
+   ("M-s u" . consult-focus-lines)
+   ;; Isearch integration
+   ("M-s e" . consult-isearch-history)
+   :map isearch-mode-map
+   ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
+   ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
+   ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
+   ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
+   ;; Minibuffer history
+   :map minibuffer-local-map
+   ("M-s" . consult-history)                 ;; orig. next-matching-history-element
+   ("M-r" . consult-history))                ;; orig. previous-matching-history-element
   ;; Enable automatic preview at point in the *Completions* buffer. This is
   ;; relevant when you use the default completion UI.
   :hook (completion-list-mode . consult-preview-at-point-mode)
-
-  ;; The :init configuration is always executed (Not lazy)
-  :init
-
-  ;; Optionally configure the register formatting. This improves the register
-  ;; preview for `consult-register', `consult-register-load',
-  ;; `consult-register-store' and the Emacs built-ins.
-  (setq register-preview-delay 0.5
-        register-preview-function #'consult-register-format)
-
-  ;; Optionally tweak the register preview window.
-  ;; This adds thin lines, sorting and hides the mode line of the window.
-  (advice-add #'register-preview :override #'consult-register-window)
-
-  ;; Use Consult to select xref locations with preview
-  (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
-
-  ;; Configure other variables and modes in the :config section,
-  ;; after lazily loading the package.
   :config
-
-  ;; Optionally configure preview. The default value
-  ;; is 'any, such that any key triggers the preview.
-  ;; (setq consult-preview-key 'any)
-  ;; (setq consult-preview-key "M-.")
-  ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
-  ;; For some commands and buffer sources it is useful to configure the
-  ;; :preview-key on a per-command basis using the `consult-customize' macro.
+  ;; preview-key on a per-command basis using the `consult-customize' macro.
   (consult-customize
    consult-theme :preview-key '(:debounce 0.2 any)
    consult-ripgrep consult-git-grep consult-grep
    consult-bookmark consult-recent-file consult-xref
    consult--source-bookmark consult--source-file-register
    consult--source-recent-file consult--source-project-recent-file
-   ;; :preview-key "M-."
    :preview-key '(:debounce 0.4 any))
-
   ;; Optionally configure the narrowing key.
   ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<") ;; "C-+"
-)
+  (setq consult-narrow-key "<"
+        register-preview-delay 0.5
+        register-preview-function #'consult-register-format)
+  ;; This adds thin lines, sorting and hides the mode line of the window.
+  (advice-add #'register-preview :override #'consult-register-window)
+  ;; Use Consult to select xref locations with preview
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref))
 
 (use-package orderless
-  :ensure t
   :custom
   (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
-
-(global-set-key (kbd "<f5>") 'compile)
-(global-set-key (kbd "<f6>") 'recompile)
-(global-set-key (kbd "<f7>") 'previous-error)
-(global-set-key (kbd "<f8>") 'next-error)
+  (completion-category-overrides
+   '((file (styles basic partial-completion)))))
 
 ;; https://leanpub.com/markdown-mode/read
 (use-package markdown-mode
@@ -281,20 +256,10 @@
 
 (use-package markdown-toc)
 
-(use-package dashboard
-  :config
-    (dashboard-setup-startup-hook)
-    (setq dashboard-items '((recents  . 10)))
-    (setq dashboard-banner-logo-title
-          (format "%s" (sunrise-sunset()))))
-
 (use-package magit
   :config
-  (setq magit-push-always-verify nil)
-  (setq git-commit-summary-max-length 50))
-
-(setq ediff-split-window-function 'split-window-horizontally)
-(setq ediff-merge-split-window-function 'split-window-horizontally)
+  (setq magit-push-always-verify nil
+        git-commit-summary-max-length 50))
 
 ;; avoid typing y to quit ediff session
 (defun disable-y-or-n-p (orig-fun &rest args)
@@ -307,21 +272,19 @@
 
 (use-package company
   :config
-  (setq company-idle-delay 1)
-  (setq company-minimum-prefix-length 1))
+  (setq company-idle-delay 1
+        company-minimum-prefix-length 1))
 
 (global-company-mode)
 
 (use-package projectile
   :config
   (projectile-mode)
-  (setq projectile-enable-caching t)
-  (setq projectile-indexing-method 'alien)
-  (setq projectile-globally-ignored-file-suffixes
-        '("#" "~" ".swp" ".o" ".so" ".exe" ".dll" ".elc" ".pyc" ".jar"))
-  (setq projectile-globally-ignored-directories
-        '(".git" "node_modules" "__pycache__" ".vs"))
-  (setq projectile-globally-ignored-files '("TAGS" "tags" ".DS_Store"))
+  (setq projectile-enable-caching t
+        projectile-indexing-method 'alien
+        projectile-globally-ignored-file-suffixes '("#" "~" ".swp" ".o" ".so" ".exe" ".dll" ".elc" ".pyc" ".jar")
+        projectile-globally-ignored-directories '(".git" "node_modules" "__pycache__" ".vs")
+        projectile-globally-ignored-files '("TAGS" "tags" ".DS_Store"))
   :bind-keymap ("C-c C-p" . projectile-command-map)
   :init
   (when (file-directory-p "~/git")
@@ -330,46 +293,50 @@
 
 (use-package neotree
   :bind (("<f2>" . neotree-toggle))
-  :config
-  (setq neo-window-fixed-size nil))
+  :config (setq neo-window-fixed-size nil))
 
 (use-package go-mode)
 (add-hook 'go-mode-hook
-          '(lambda()
-             (add-hook 'before-save-hook #'lsp-format-buffer t t)
-             (add-hook 'before-save-hook #'lsp-organize-imports t t)))
+          (lambda()
+            (electric-pair-mode 1)
+            (add-hook 'before-save-hook #'lsp-format-buffer t t)
+            (add-hook 'before-save-hook #'lsp-organize-imports t t)))
 
 (use-package fsharp-mode)
 (add-hook 'fsharp-mode-hook
-          '(lambda()
-             (add-hook 'before-save-hook #'lsp-format-buffer t t)))
+          (lambda()
+            (electric-pair-mode 1)
+            (add-hook 'before-save-hook #'lsp-format-buffer t t)))
 
 (add-hook 'csharp-mode-hook
-	      '(lambda()
-	         (electric-pair-mode)
-             (setq truncate-lines -1)))
+	      (lambda()
+	        (electric-pair-mode 1)))
 
 (use-package lsp-mode
   :init
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  (setq lsp-keymap-prefix "C-c l")
-  ;; https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off
-  (setq lsp-lens-enable nil)
-  (setq lsp-ui-sideline-enable t)
-  :hook (
-         (csharp-mode . lsp)
-         (fsharp-mode . lsp)
-         (go-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration))
+  (setq lsp-keymap-prefix "C-c l"
+        ;; https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off
+        lsp-lens-enable nil
+        lsp-ui-sideline-enable t)
+  :hook
+  ((csharp-mode . lsp)
+   (fsharp-mode . lsp)
+   (go-mode . lsp)
+   (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 
-;; optionally
-(use-package lsp-ui :commands lsp-ui-mode)
-(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+(use-package lsp-ui
+  :commands lsp-ui-mode)
+
+(use-package lsp-treemacs
+  :commands lsp-treemacs-errors-list)
 
 ;; https://www.youtube.com/watch?v=0bilcQVSlbM
-(use-package dap-mode)
-(require 'dap-netcore)
+(use-package dap-mode
+  :after lsp-mode
+  :config
+  (dap-mode 1)
+  (dap-ui-mode 1))
 
 (use-package paredit)
 
@@ -378,16 +345,15 @@
              (eldoc-mode 1)))
 
 ;; https://github.com/magnars/multiple-cursors.el
-(use-package multiple-cursors)
-
-(require 'multiple-cursors)
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->")         'mc/mark-next-like-this)
-(global-set-key (kbd "C-<")         'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<")     'mc/mark-all-like-this)
-(global-set-key (kbd "C-\"")        'mc/skip-to-next-like-this)
-(global-set-key (kbd "C-:")         'mc/skip-to-previous-like-this)
-(global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
+(use-package multiple-cursors
+  :bind
+  ("C-S-c C-S-c" . 'mc/edit-lines)
+  ("S-M-<down>" . 'mc/mark-next-like-this)
+  ("S-M-<up>" . 'mc/mark-previous-like-this)
+  ("C-c C-<" . 'mc/mark-all-like-this)
+  ("C-\"" . 'mc/skip-to-next-like-this)
+  ("C-:" . 'mc/skip-to-previous-like-this)
+  ("S-M-<mouse-1>" . 'mc/add-cursor-on-click))
 
 ;; https://github.com/magnars/expand-region.el
 (use-package expand-region
@@ -395,37 +361,30 @@
   ("C-=" . er/expand-region)
   ("C--" . er/contract-region))
 
-;; use M-up/M-down to move selection up and down
-(use-package move-text)
-(global-set-key (kbd "<M-up>") 'move-text-up)
-(global-set-key (kbd "<M-down>") 'move-text-down)
+;; https://github.com/emacsfodder/move-text
+(use-package move-text
+  :bind
+  ("<M-up>" . 'move-text-up)
+  ("<M-down>" . 'move-text-down))
 
 ;; https://github.com/abo-abo/avy
-(use-package avy)
+(use-package avy
+  :bind
+  ("C-;" . 'avy-goto-char)
+  ("C-:" . 'avy-goto-char-2))
 
-(use-package git-gutter)
-(global-git-gutter-mode 1)
-
-(global-set-key (kbd "C-;") 'avy-goto-char)
-(global-set-key (kbd "C-:") 'avy-goto-char-2)
+(use-package git-gutter
+  :config
+  (global-git-gutter-mode 1))
 
 (load-theme 'wombat)
 
 (use-package ispell
-  :no-require t
   :config
-  (setq ispell-dictionary "en_US")
-  (setq ispell-highlight-face (quote flyspell-incorrect))
-  (setq ispell-silently-savep t))
+  (setq ispell-dictionary "en_US"
+        ispell-highlight-face (quote flyspell-incorrect)
+        ispell-silently-savep t))
   
 (use-package flyspell
-  :defer t
-  :init
-  (progn
-    (add-hook 'message-mode-hook 'turn-on-flyspell)
-    (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
-    (add-hook 'text-mode-hook 'flyspell-mode)
-    (add-hook 'markdown-mode-hook 'flyspell-mode)))
-
-;; only load if exists?
-;;(load-file custom-file)
+  :hook
+  ((message-mode git-commit-setup text-mode markdown-mode) . flyspell-mode))
