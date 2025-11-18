@@ -126,7 +126,8 @@
                   emacs-lisp-mode))
     (evil-set-initial-state mode 'normal))    
   (evil-set-initial-state 'git-commit-mode 'emacs)
-  (defalias #'forward-evil-word #'forward-evil-symbol))
+  (defalias #'forward-evil-word #'forward-evil-symbol)
+  (evil-mode 1))
 
 (use-package evil-surround
   :after evil
