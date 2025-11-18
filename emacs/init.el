@@ -24,6 +24,7 @@
       require-final-newline t
       warning-minimum-level :error
       use-short-answers t
+      next-line-add-newlines t
       custom-file (locate-user-emacs-file "custom.el"))
 
 (load custom-file 'noerror)
@@ -379,7 +380,10 @@
   :config
   (global-git-gutter-mode 1))
 
-(load-theme 'wombat)
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(load-theme 'modus-vivendi-tinted)
 
 (use-package ispell
   :config
