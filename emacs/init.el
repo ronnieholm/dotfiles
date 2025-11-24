@@ -61,7 +61,18 @@
         (width . 120)
         (height . 60)))
 
+(defun rh/delete-trailing-blank-lines ()
+  "Remove blank lines at end of buffer, leaving exactly one newline at EOF."
+  (when (and (buffer-file-name) (not (string= (buffer-name) "*scratch*")))
+    (save-excursion
+      (goto-char (point-max))
+      (skip-chars-backward " \t\n")
+      (unless (bolp)
+        (delete-region (point) (point-max))
+        (insert "\n")))))
+
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
+(add-hook 'before-save-hook #'rh/delete-trailing-blank-lines)
 
 (global-font-lock-mode t)
 (blink-cursor-mode 0)
