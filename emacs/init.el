@@ -33,7 +33,7 @@
 (setq-default fill-column 80
               indent-tabs-mode nil ;; spaces over tabs
               tab-width 4
-              compilation-scroll-output t) 
+              compilation-scroll-output t)
 
 ;; don't show the toolbar and scrollbar
 (tool-bar-mode -1)
@@ -60,6 +60,8 @@
       `((font . ,(rh/get-default-font))
         (width . 120)
         (height . 60)))
+
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 (global-font-lock-mode t)
 (blink-cursor-mode 0)
@@ -118,14 +120,14 @@
 ;;         evil-split-window-below t
 ;;         evil-undo-system 'undo-redo
 ;;         evil-symbol-word-search t
-;;         evil-kill-on-visual-paste nil)  
+;;         evil-kill-on-visual-paste nil)
 ;;   :config
 ;;   (dolist (mode '(prog-mode
 ;;                   text-mode
 ;;                   conf-mode
 ;;                   fundamental-mode
 ;;                   emacs-lisp-mode))
-;;     (evil-set-initial-state mode 'normal))    
+;;     (evil-set-initial-state mode 'normal))
 ;;   (evil-set-initial-state 'git-commit-mode 'emacs)
 ;;   (defalias #'forward-evil-word #'forward-evil-symbol)
 ;;   (evil-mode 1))
@@ -395,7 +397,7 @@
   (setq ispell-dictionary "en_US"
         ispell-highlight-face (quote flyspell-incorrect)
         ispell-silently-savep t))
-  
+
 (use-package flyspell
   :hook
   ((message-mode git-commit-setup text-mode markdown-mode) . flyspell-mode))
