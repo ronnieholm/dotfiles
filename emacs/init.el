@@ -25,6 +25,7 @@
       warning-minimum-level :error
       use-short-answers t
       next-line-add-newlines t
+      initial-scratch-message nil
       custom-file (locate-user-emacs-file "custom.el"))
 
 (load custom-file 'noerror)
@@ -106,28 +107,28 @@
 (use-package try)
 (use-package helpful)
 
-(use-package evil
-  :init
-  (setq evil-default-state 'emacs
-        evil-want-C-w-in-emacs-state t
-        evil-want-C-w-delete nil
-        evil-want-Y-yank-to-eol t
-        evil-want-C-u-scroll t
-        evil-vsplit-window-right t
-        evil-split-window-below t
-        evil-undo-system 'undo-redo
-        evil-symbol-word-search t
-        evil-kill-on-visual-paste nil)  
-  :config
-  (dolist (mode '(prog-mode
-                  text-mode
-                  conf-mode
-                  fundamental-mode
-                  emacs-lisp-mode))
-    (evil-set-initial-state mode 'normal))    
-  (evil-set-initial-state 'git-commit-mode 'emacs)
-  (defalias #'forward-evil-word #'forward-evil-symbol)
-  (evil-mode 1))
+;; (use-package evil
+;;   :init
+;;   (setq evil-default-state 'emacs
+;;         evil-want-C-w-in-emacs-state t
+;;         evil-want-C-w-delete nil
+;;         evil-want-Y-yank-to-eol t
+;;         evil-want-C-u-scroll t
+;;         evil-vsplit-window-right t
+;;         evil-split-window-below t
+;;         evil-undo-system 'undo-redo
+;;         evil-symbol-word-search t
+;;         evil-kill-on-visual-paste nil)  
+;;   :config
+;;   (dolist (mode '(prog-mode
+;;                   text-mode
+;;                   conf-mode
+;;                   fundamental-mode
+;;                   emacs-lisp-mode))
+;;     (evil-set-initial-state mode 'normal))    
+;;   (evil-set-initial-state 'git-commit-mode 'emacs)
+;;   (defalias #'forward-evil-word #'forward-evil-symbol)
+;;   (evil-mode 1))
 
 (use-package evil-surround
   :after evil
@@ -335,12 +336,15 @@
 (use-package lsp-treemacs
   :commands lsp-treemacs-errors-list)
 
-;; https://www.youtube.com/watch?v=0bilcQVSlbM
+;; https://www.youtube.com/watch?v=0bilcQVSlbM and https://emacs-lsp.github.io/dap-mode/page/configuration
+(setq dap-netcore-download-url "https://github.com/Samsung/netcoredbg/releases/download/3.1.2-1054/netcoredbg-linux-amd64.tar.gz")
 (use-package dap-mode
   :after lsp-mode
   :config
   (dap-mode 1)
-  (dap-ui-mode 1))
+  (dap-ui-mode 1)
+  (dap-tooltip-mode 1)
+  (require 'dap-netcore))
 
 (use-package paredit)
 
