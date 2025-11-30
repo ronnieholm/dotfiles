@@ -24,7 +24,6 @@
       require-final-newline t
       warning-minimum-level :error
       use-short-answers t
-      next-line-add-newlines t
       initial-scratch-message nil
       custom-file (locate-user-emacs-file "custom.el"))
 
@@ -92,16 +91,17 @@
 (global-set-key (kbd "<f7>") 'previous-error)
 (global-set-key (kbd "<f8>") 'next-error)
 
-;; dired
-(setq dired-listing-switches "-alh")
-(setf dired-kill-when-opening-new-dired-buffer t)
-
 ;; add paths recursively
 (let ((default-directory "~/.emacs.d/site-lisp/"))
   (progn
     (add-to-list 'load-path default-directory)
     (normal-top-level-add-to-load-path '("."))
     (normal-top-level-add-subdirs-to-load-path)))
+
+(use-package dired
+  :config
+  (setq dired-listing-switches "-alh")
+  (setf dired-kill-when-opening-new-dired-buffer t))
 
 (require 'package)
 (add-to-list 'package-archives
@@ -320,15 +320,16 @@
             (add-hook 'before-save-hook #'lsp-format-buffer t t)
             (add-hook 'before-save-hook #'lsp-organize-imports t t)))
 
-(use-package fsharp-mode)
-(add-hook 'fsharp-mode-hook
-          (lambda()
-            (electric-pair-mode 1)
-            (add-hook 'before-save-hook #'lsp-format-buffer t t)))
+(use-package fsharp-mode
+  :hook (fsharp-mode .
+         (lambda ()
+           (electric-pair-mode 1)
+           (add-hook 'before-save-hook #'lsp-format-buffer nil t))))
 
-(add-hook 'csharp-mode-hook
+(use-package csharp-mode
+  :hook (csharp-mode .
 	      (lambda()
-	        (electric-pair-mode 1)))
+	        (electric-pair-mode 1))))
 
 (use-package lsp-mode
   :init
@@ -350,9 +351,10 @@
   :commands lsp-treemacs-errors-list)
 
 ;; https://www.youtube.com/watch?v=0bilcQVSlbM and https://emacs-lsp.github.io/dap-mode/page/configuration
-(setq dap-netcore-download-url "https://github.com/Samsung/netcoredbg/releases/download/3.1.2-1054/netcoredbg-linux-amd64.tar.gz")
 (use-package dap-mode
   :after lsp-mode
+  :init
+  (setq dap-netcore-download-url "https://github.com/Samsung/netcoredbg/releases/download/3.1.2-1054/netcoredbg-linux-amd64.tar.gz")
   :config
   (dap-mode 1)
   (dap-ui-mode 1)
@@ -406,9 +408,15 @@
 (use-package ispell
   :config
   (setq ispell-dictionary "en_US"
-        ispell-highlight-face (quote flyspell-incorrect)
+        ispell-highlight-face '(flyspell-incorrect)
         ispell-silently-savep t))
 
 (use-package flyspell
   :hook
   ((message-mode git-commit-setup text-mode markdown-mode) . flyspell-mode))
+
+(use-package erc
+  :config
+  (setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
+                                  "324" "329" "332" "333" "353" "477")
+        erc-hide-list '("JOIN" "NICK" "PART" "QUIT")))
