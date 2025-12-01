@@ -14,8 +14,8 @@
       ring-bell-function 'ignore
       backup-inhibited t
       delete-by-moving-to-trash t
-      gc-cons-threshold (* 50 1024 1024) ;; in bytes. Default is 800 KB
-      compilation-ask-about-save nil ;; save all modified buffer without asking
+      gc-cons-threshold (* 50 1024 1024) ; in bytes. Default is 800 KB
+      compilation-ask-about-save nil ; save all modified buffer without asking
       compile-command "dotnet build"
       ediff-split-window-function 'split-window-horizontally
       ediff-merge-split-window-function 'split-window-horizontally
@@ -30,7 +30,7 @@
 (load custom-file 'noerror)
 
 (setq-default fill-column 80
-              indent-tabs-mode nil ;; spaces over tabs
+              indent-tabs-mode nil ; spaces over tabs
               tab-width 4
               compilation-scroll-output t)
 
@@ -61,7 +61,7 @@
         (height . 60)))
 
 (defun rh/delete-trailing-blank-lines ()
-  "Remove blank lines at end of buffer, leaving exactly one newline at EOF."
+  "Remove blank lines at end of buffer, leaving one newline at EOF."
   (when (and (buffer-file-name) (not (string= (buffer-name) "*scratch*")))
     (save-excursion
       (goto-char (point-max))
@@ -143,13 +143,13 @@
 ;;   (defalias #'forward-evil-word #'forward-evil-symbol)
 ;;   (evil-mode 1))
 
-(use-package evil-surround
-  :after evil
-  :config (global-evil-surround-mode t))
+;; (use-package evil-surround
+;;   :after evil
+;;   :config (global-evil-surround-mode t))
 
-(use-package evil-exchange
-  :after evil
-  :config (evil-exchange-install))
+;; (use-package evil-exchange
+;;   :after evil
+;;   :config (evil-exchange-install))
 
 ;; Sacha Chua: Emacs microhabit - Switching windows
 ;; https://www.youtube.com/watch?v=nKCKuRuvAOw
@@ -160,15 +160,15 @@
   :config (which-key-mode))
 
 (use-package vertico
-  :init (vertico-mode)
+  :config (vertico-mode)
   :custom (vertico-cycle t))
 
 (use-package savehist
-  :init (savehist-mode))
+  :config (savehist-mode))
 
 (use-package marginalia
   :after vertico
-  :init (marginalia-mode)
+  :config (marginalia-mode)
   :custom
   (marginalia-annotators '(marginalia-annontations-heavy
                            marginalia-annotations-light
@@ -313,23 +313,19 @@
   :bind (("<f2>" . neotree-toggle))
   :config (setq neo-window-fixed-size nil))
 
-(use-package go-mode)
-(add-hook 'go-mode-hook
-          (lambda()
-            (electric-pair-mode 1)
-            (add-hook 'before-save-hook #'lsp-format-buffer t t)
-            (add-hook 'before-save-hook #'lsp-organize-imports t t)))
+(use-package go-mode
+  :hook (go-mode . (lambda()
+                     (electric-pair-mode 1)
+                     (add-hook 'before-save-hook #'lsp-format-buffer t t)
+                     (add-hook 'before-save-hook #'lsp-organize-imports t t))))
 
 (use-package fsharp-mode
-  :hook (fsharp-mode .
-         (lambda ()
-           (electric-pair-mode 1)
-           (add-hook 'before-save-hook #'lsp-format-buffer nil t))))
+  :hook (fsharp-mode . (lambda ()
+                         (electric-pair-mode 1)
+                         (add-hook 'before-save-hook #'lsp-format-buffer nil t))))
 
 (use-package csharp-mode
-  :hook (csharp-mode .
-	      (lambda()
-	        (electric-pair-mode 1))))
+  :hook (csharp-mode . (lambda() (electric-pair-mode 1))))
 
 (use-package lsp-mode
   :init
@@ -363,9 +359,8 @@
 
 (use-package paredit)
 
-(add-hook 'emacs-lisp-mode-hook
-          '(lambda()
-             (eldoc-mode 1)))
+(use-package eldoc
+  :hook (emacs-lisp-mode . eldoc-mode))
 
 ;; https://github.com/magnars/multiple-cursors.el
 (use-package multiple-cursors
