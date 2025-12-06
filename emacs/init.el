@@ -325,7 +325,7 @@
                          (add-hook 'before-save-hook #'lsp-format-buffer nil t))))
 
 (use-package csharp-mode
-  :hook (csharp-mode . (lambda() (electric-pair-mode 1))))
+  :hook electric-pair-mode)
 
 (use-package lsp-mode
   :init
@@ -360,7 +360,7 @@
 (use-package paredit)
 
 (use-package eldoc
-  :hook (emacs-lisp-mode . eldoc-mode))
+  :hook emacs-lisp-mode)
 
 ;; https://github.com/magnars/multiple-cursors.el
 (use-package multiple-cursors
