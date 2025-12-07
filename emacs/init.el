@@ -274,8 +274,7 @@
 ;; https://leanpub.com/markdown-mode/read
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . gfm-mode)
+  :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init
   (setq markdown-command
@@ -307,22 +306,22 @@
 (global-company-mode)
 
 (use-package projectile
+  :init
+  (when (file-directory-p "~/git")
+    (setq projectile-project-search-path '("~/git")))
   :config
   (projectile-mode)
   (setq projectile-enable-caching t
         projectile-indexing-method 'alien
         projectile-globally-ignored-file-suffixes '("#" "~" ".swp" ".o" ".so" ".exe" ".dll" ".elc" ".pyc" ".jar")
         projectile-globally-ignored-directories '(".git" "node_modules" "__pycache__" ".vs")
-        projectile-globally-ignored-files '("TAGS" "tags" ".DS_Store"))
-  :bind-keymap ("C-c C-p" . projectile-command-map)
-  :init
-  (when (file-directory-p "~/git")
-    (setq projectile-project-search-path '("~/git")))
-  (setq projectile-switch-project-action #'projectile-dired))
+        projectile-globally-ignored-files '("TAGS" "tags" ".DS_Store")
+        projectile-switch-project-action #'projectile-dired)
+  :bind-keymap ("C-c C-p" . projectile-command-map))
 
 (use-package neotree
-  :bind (("<f2>" . neotree-toggle))
-  :config (setq neo-window-fixed-size nil))
+  :config (setq neo-window-fixed-size nil)
+  :bind (("<f2>" . neotree-toggle)))
 
 (use-package go-mode
   :hook (go-mode . (lambda()
