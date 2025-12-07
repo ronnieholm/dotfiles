@@ -29,6 +29,17 @@
 
 (load custom-file 'noerror)
 
+(defun rh/select-window (window)
+  (select-window window))
+
+;; https://protesilaos.com/codelog/2024-02-08-emacs-window-rules-display-buffer-alist
+(setq display-buffer-alist
+      '(("\\*Help\\*"
+         (display-buffer-reuse-mode-window
+          display-buffer-below-selected)
+         (dedicated . t)
+         (body-function . rh/select-window))))
+
 (setq-default fill-column 80
               indent-tabs-mode nil ; spaces over tabs
               tab-width 4
@@ -396,7 +407,7 @@
   (global-git-gutter-mode 1))
 
 (use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
+  :hook prog-mode)
 
 (load-theme 'modus-vivendi-tinted)
 
@@ -407,8 +418,7 @@
         ispell-silently-savep t))
 
 (use-package flyspell
-  :hook
-  ((message-mode git-commit-setup text-mode markdown-mode) . flyspell-mode))
+  :hook (message-mode git-commit-setup text-mode markdown-mode))
 
 (use-package erc
   :config
