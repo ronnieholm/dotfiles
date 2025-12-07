@@ -17,8 +17,8 @@
       gc-cons-threshold (* 50 1024 1024) ; in bytes. Default is 800 KB
       compilation-ask-about-save nil ; save all modified buffer without asking
       compile-command "dotnet build"
-      ediff-split-window-function 'split-window-horizontally
-      ediff-merge-split-window-function 'split-window-horizontally
+      ediff-split-window-function #'split-window-horizontally
+      ediff-merge-split-window-function #'split-window-horizontally
       use-dialog-box nil
       confirm-kill-processes nil
       require-final-newline t
@@ -92,15 +92,15 @@
 (global-set-key (kbd "<f12>") (lambda() (interactive) (find-file user-init-file)))
 (global-set-key (kbd "C-x 2") (lambda() (interactive) (select-window (split-window-below))))
 (global-set-key (kbd "C-x 3") (lambda() (interactive) (select-window (split-window-right))))
-(global-set-key (kbd "C-c <left>") 'windmove-left)
-(global-set-key (kbd "C-c <right>") 'windmove-right)
-(global-set-key (kbd "C-c <up>") 'windmove-up)
-(global-set-key (kbd "C-c <down>") 'windmove-down)
-(global-set-key (kbd "C-,") 'duplicate-line)
-(global-set-key (kbd "<f5>") 'compile)
-(global-set-key (kbd "<f6>") 'recompile)
-(global-set-key (kbd "<f7>") 'previous-error)
-(global-set-key (kbd "<f8>") 'next-error)
+(global-set-key (kbd "C-c <left>") #'windmove-left)
+(global-set-key (kbd "C-c <right>") #'windmove-right)
+(global-set-key (kbd "C-c <up>") #'windmove-up)
+(global-set-key (kbd "C-c <down>") #'windmove-down)
+(global-set-key (kbd "C-,") #'duplicate-line)
+(global-set-key (kbd "<f5>") #'compile)
+(global-set-key (kbd "<f6>") #'recompile)
+(global-set-key (kbd "<f7>") #'previous-error)
+(global-set-key (kbd "<f8>") #'next-error)
 
 ;; add paths recursively
 (let ((default-directory "~/.emacs.d/site-lisp/"))
@@ -292,10 +292,10 @@
 
 ;; avoid typing y to quit ediff session
 (defun disable-y-or-n-p (orig-fun &rest args)
-  (cl-letf (((symbol-function 'y-or-n-p) (lambda (prompt) t)))
+  (cl-letf (((symbol-function #'y-or-n-p) (lambda (prompt) t)))
     (apply orig-fun args)))
 
-(advice-add 'ediff-quit :around #'disable-y-or-n-p)
+(advice-add #'ediff-quit :around #'disable-y-or-n-p)
 
 (use-package git-gutter)
 
@@ -376,13 +376,13 @@
 ;; https://github.com/magnars/multiple-cursors.el
 (use-package multiple-cursors
   :bind
-  ("C-S-c C-S-c" . 'mc/edit-lines)
-  ("S-M-<down>" . 'mc/mark-next-like-this)
-  ("S-M-<up>" . 'mc/mark-previous-like-this)
-  ("C-c C-<" . 'mc/mark-all-like-this)
-  ("C-\"" . 'mc/skip-to-next-like-this)
-  ("C-:" . 'mc/skip-to-previous-like-this)
-  ("S-M-<mouse-1>" . 'mc/add-cursor-on-click))
+  ("C-S-c C-S-c" . mc/edit-lines)
+  ("S-M-<down>" . mc/mark-next-like-this)
+  ("S-M-<up>" . mc/mark-previous-like-this)
+  ("C-c C-<" . mc/mark-all-like-this)
+  ("C-\"" . mc/skip-to-next-like-this)
+  ("C-:" . mc/skip-to-previous-like-this)
+  ("S-M-<mouse-1>" . mc/add-cursor-on-click))
 
 ;; https://github.com/magnars/expand-region.el
 (use-package expand-region
@@ -393,14 +393,14 @@
 ;; https://github.com/emacsfodder/move-text
 (use-package move-text
   :bind
-  ("<M-up>" . 'move-text-up)
-  ("<M-down>" . 'move-text-down))
+  ("<M-up>" . move-text-up)
+  ("<M-down>" . move-text-down))
 
 ;; https://github.com/abo-abo/avy
 (use-package avy
   :bind
-  ("C-;" . 'avy-goto-char)
-  ("C-:" . 'avy-goto-char-2))
+  ("C-;" . avy-goto-char)
+  ("C-:" . avy-goto-char-2))
 
 (use-package git-gutter
   :config
