@@ -111,8 +111,15 @@
 
 (use-package dired
   :config
-  (setq dired-listing-switches "-alh")
-  (setf dired-kill-when-opening-new-dired-buffer t))
+  (setq delete-by-moving-to-trash t
+        dired-listing-switches "-alh"
+        dired-guess-shell-alist-user
+        '(("\\.mkv\\'" "mpv")
+          (".*" "xdg-open"))
+        dired-dwim-target t
+        dired-auto-revert-buffer t)
+  (setf dired-kill-when-opening-new-dired-buffer t)
+  :hook (dired-mode . dired-hide-details-mode))
 
 (require 'package)
 (add-to-list 'package-archives
