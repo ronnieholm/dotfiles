@@ -121,9 +121,15 @@
   (setf dired-kill-when-opening-new-dired-buffer t)
   :hook (dired-mode . dired-hide-details-mode))
 
+;; (use-package dired-subtree
+;;   :after dired
+;;   :config
+;;   (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
+;;   (bind-key "<backtab>" #'dired-subtree-cycle dired-mode-map))
+
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa" . "https://stable.melpa.org/packages/") t)
+             '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
