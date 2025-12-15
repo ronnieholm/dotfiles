@@ -347,8 +347,7 @@
                          (electric-pair-mode 1)
                          (add-hook 'before-save-hook #'lsp-format-buffer nil t))))
 
-(use-package csharp-mode
-  :hook electric-pair-mode)
+(use-package csharp-mode)
 
 (use-package lsp-mode
   :init
