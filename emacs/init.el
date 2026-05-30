@@ -121,12 +121,6 @@
   (setf dired-kill-when-opening-new-dired-buffer t)
   :hook (dired-mode . dired-hide-details-mode))
 
-;; (use-package dired-subtree
-;;   :after dired
-;;   :config
-;;   (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
-;;   (bind-key "<backtab>" #'dired-subtree-cycle dired-mode-map))
-
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
@@ -143,37 +137,6 @@
 
 (use-package try)
 (use-package helpful)
-
-;; (use-package evil
-;;   :init
-;;   (setq evil-default-state 'emacs
-;;         evil-want-C-w-in-emacs-state t
-;;         evil-want-C-w-delete nil
-;;         evil-want-Y-yank-to-eol t
-;;         evil-want-C-u-scroll t
-;;         evil-vsplit-window-right t
-;;         evil-split-window-below t
-;;         evil-undo-system 'undo-redo
-;;         evil-symbol-word-search t
-;;         evil-kill-on-visual-paste nil)
-;;   :config
-;;   (dolist (mode '(prog-mode
-;;                   text-mode
-;;                   conf-mode
-;;                   fundamental-mode
-;;                   emacs-lisp-mode))
-;;     (evil-set-initial-state mode 'normal))
-;;   (evil-set-initial-state 'git-commit-mode 'emacs)
-;;   (defalias #'forward-evil-word #'forward-evil-symbol)
-;;   (evil-mode 1))
-
-;; (use-package evil-surround
-;;   :after evil
-;;   :config (global-evil-surround-mode t))
-
-;; (use-package evil-exchange
-;;   :after evil
-;;   :config (evil-exchange-install))
 
 ;; Sacha Chua: Emacs microhabit - Switching windows
 ;; https://www.youtube.com/watch?v=nKCKuRuvAOw
