@@ -399,3 +399,15 @@
   (setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
                                   "324" "329" "332" "333" "353" "477")
         erc-hide-list '("JOIN" "NICK" "PART" "QUIT")))
+
+;; Clojure
+(use-package clojure-mode)
+(use-package lsp-mode)
+(use-package cider)
+(use-package lsp-treemacs)
+(use-package flycheck)
+(use-package company)
+
+(add-hook 'clojure-mode-hook 'lsp)
+(add-hook 'clojurescript-mode-hook 'lsp)
+(add-hook 'clojurec-mode-hook 'lsp)
